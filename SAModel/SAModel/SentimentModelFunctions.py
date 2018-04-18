@@ -367,25 +367,28 @@ def antonym_lookup_from_file():
 		print(antonym)
 
 def antonym_lookup(word):
+	try:
+		antonym= []
+		keyword_synsets = wn.synsets(word)
 
-	antonym= []
-	keyword_synsets = wn.synsets(word)
+		# print ('synsets', keyword_synsets)
 
-	# print ('synsets', keyword_synsets)
+		word_list_lemma = change_to_lemma(keyword_synsets)
 
-	word_list_lemma = change_to_lemma(keyword_synsets)
+		# print 'word_list_lemma', word_list_lemma
+		antonym = check_has_antonym(word_list_lemma)
 
-	# print 'word_list_lemma', word_list_lemma
-	antonym = check_has_antonym(word_list_lemma)
+		#if there is no antonym for all keyword_synset in keyword_list,
+		if antonym ==[]:
+			antonym = mother(word_list_lemma)
 
-	#if there is no antonym for all keyword_synset in keyword_list,
-	if antonym ==[]:
-		antonym = mother(word_list_lemma)
-
-	#antonym output as a list
-	for anto in antonym:
-		if '_' not in anto:
-			return anto
+		#antonym output as a list
+		for anto in antonym:
+			if '_' not in anto:
+				return anto
+	except RuntimeError as re:
+		print("antonym_lookup({}):{}".format(word, re)) #"us","me","50"
+		return None
 	# return antonym[0]
 
 #*------------------------------------------------------------------------------------------*#

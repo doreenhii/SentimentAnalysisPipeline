@@ -128,7 +128,7 @@ for review in reviews[review_id+1:]:
                     if(neg_res == "ANTONYM_LOOKUP" and neg_detection_methods[i][j] == "PARSETREE"):
                         continue
 
-                    print("\t\t{}".format(model_type))
+                    #print("\t\t{}".format(model_type))
 
                     #resolve negation
                     model.neg_res()
@@ -162,7 +162,8 @@ for review in reviews[review_id+1:]:
     
     
 for model_type in possible_models:
-    
+    if(model_type == "PARSETREE ANTONYM_LOOKUP PARSETREE"):
+        continue
     binary_tally = [0,0]
     fiveStar_tally = [0,0]
     
