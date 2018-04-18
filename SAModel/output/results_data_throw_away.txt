@@ -1,0 +1,185 @@
+{
+    "Sentences": {
+        "0": "It is and does exactly what the description said it would be and would do",
+        "1": "Couldn't be happier with it",
+        "2": "I was sketchy at first about these but once you wear them for a couple hours they break in they fit good on my board an have little wear from skating in them",
+        "3": "They are a little heavy but won't get eaten up as bad by your grip tape like poser dc shoes"
+    },
+    "Sentiment": {
+        "NEGTOOL ANTONYM_LOOKUP PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": -0.231,
+            "2": 0.025345136280912502,
+            "3": -0.09530850828235833,
+            "binary_classification_acc": 0.0,
+            "five_star_acc": 0.0
+        },
+        "NEGTOOL SYM_INVERT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.231,
+            "2": 0.025345136280912502,
+            "3": 0.16363457790765834,
+            "binary_classification_acc": 1.0,
+            "five_star_acc": 0.0
+        },
+        "NEGTOOL SYM_SHIFT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.23100000000000004,
+            "2": 0.025345136280912502,
+            "3": -0.11761542209234165,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        },
+        "NEGTOOL ASYM_SHIFT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.08100000000000002,
+            "2": 0.025345136280912502,
+            "3": 0.08863457790765833,
+            "binary_classification_acc": 1.0,
+            "five_star_acc": 0.0
+        },
+        "WINDOW ANTONYM_LOOKUP PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": -0.231,
+            "2": 0.025345136280912502,
+            "3": -0.1538617459473417,
+            "binary_classification_acc": 0.0,
+            "five_star_acc": 0.0
+        },
+        "WINDOW SYM_INVERT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.231,
+            "2": 0.025345136280912502,
+            "3": 0.15113457790765833,
+            "binary_classification_acc": 1.0,
+            "five_star_acc": 0.0
+        },
+        "WINDOW SYM_SHIFT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.23100000000000004,
+            "2": 0.025345136280912502,
+            "3": -0.16136542209234167,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        },
+        "WINDOW ASYM_SHIFT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.08100000000000002,
+            "2": 0.025345136280912502,
+            "3": 0.08863457790765833,
+            "binary_classification_acc": 1.0,
+            "five_star_acc": 0.0
+        },
+        "PARSETREE ANTONYM_LOOKUP PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.225,
+            "2": 0.025345136280912502,
+            "3": -0.1318654220923417,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        },
+        "PARSETREE SYM_INVERT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.156,
+            "2": 0.025345136280912502,
+            "3": 0.1261345779076583,
+            "binary_classification_acc": 1.0,
+            "five_star_acc": 0.0
+        },
+        "PARSETREE SYM_SHIFT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.531,
+            "2": 0.025345136280912502,
+            "3": -0.06136542209234168,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        },
+        "PARSETREE ASYM_SHIFT PARSETREE": {
+            "0": 0.046485695015256255,
+            "1": 0.08100000000000002,
+            "2": 0.025345136280912502,
+            "3": 0.08863457790765833,
+            "binary_classification_acc": 1.0,
+            "five_star_acc": 0.0
+        },
+        "NEGTOOL ANTONYM_LOOKUP FLAT": {
+            "0": -0.0141289271419,
+            "1": 0.4250302949774,
+            "2": 0.057094616151791656,
+            "3": -0.09202858239584444,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        },
+        "NEGTOOL SYM_INVERT FLAT": {
+            "0": -0.0141289271419,
+            "1": -0.4250302949774,
+            "2": 0.057094616151791656,
+            "3": 0.12239572445153331,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        },
+        "NEGTOOL SYM_SHIFT FLAT": {
+            "0": -0.0141289271419,
+            "1": -0.4250302949774,
+            "2": 0.057094616151791656,
+            "3": -0.12760427554846668,
+            "binary_classification_acc": 0.0,
+            "five_star_acc": 0.0
+        },
+        "NEGTOOL ASYM_SHIFT FLAT": {
+            "0": -0.0141289271419,
+            "1": 0.17496970502259995,
+            "2": 0.057094616151791656,
+            "3": -0.16093760888180003,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        },
+        "WINDOW ANTONYM_LOOKUP FLAT": {
+            "0": -0.0141289271419,
+            "1": 0.4250302949774,
+            "2": 0.057094616151791656,
+            "3": -0.11443511382762223,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        },
+        "WINDOW SYM_INVERT FLAT": {
+            "0": -0.0141289271419,
+            "1": -0.4250302949774,
+            "2": 0.057094616151791656,
+            "3": -0.12760427554846668,
+            "binary_classification_acc": 0.0,
+            "five_star_acc": 0.0
+        },
+        "WINDOW SYM_SHIFT FLAT": {
+            "0": -0.0141289271419,
+            "1": -0.4250302949774,
+            "2": 0.057094616151791656,
+            "3": -0.12760427554846668,
+            "binary_classification_acc": 0.0,
+            "five_star_acc": 0.0
+        },
+        "WINDOW ASYM_SHIFT FLAT": {
+            "0": -0.0141289271419,
+            "1": 0.17496970502259995,
+            "2": 0.057094616151791656,
+            "3": -0.16093760888180003,
+            "binary_classification_acc": 0.5,
+            "five_star_acc": 0.0
+        }
+    },
+    "Reviews": {
+        "0": {
+            "truth": 5.0,
+            "start_s_id": 0,
+            "end_s_id": 1,
+            "Result": 0.08042038894034997
+        },
+        "1": {
+            "truth": 5.0,
+            "start_s_id": 2,
+            "end_s_id": 3,
+            "Result": -0.05192149636500419
+        }
+    },
+    "AverageSentenceComputeTime": 3.621744692325592
+}
