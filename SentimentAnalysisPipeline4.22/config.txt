@@ -1,0 +1,9 @@
+{
+	"ROOT_PATH" : "C:\\Users\\King\\Desktop\\SentimentAnalysisPipeline4.22\\",
+	"NEGTOOL_NEGSCOPE": "C:\\Users\\King\\Desktop\\SentimentAnalysisPipeline4.22\\reviews\\negtool_negscope\\test_file_small_just_reviews_neg_scopes.txt",
+	"PATH_TO_CORENLP": "C:\\Users\\King\\Desktop\\SentimentAnalysisPipeline4.22\\StanfordModels\\stanford-corenlp-full-2018-02-27\\",
+	"NEGTOOL_DIRECTORY": "C:\\Users\\King\\Desktop\\SentimentAnalysisPipeline4.22\\NegToolFiles\\",
+	"VALENCE_DICT": "C:\\Users\\King\\Desktop\\SentimentAnalysisPipeline4.22\\dictionaries\\main_valence_dictionary.json",
+	"STANFORD_MODELS_PATH" : "C:\\Users\\King\\Desktop\\SentimentAnalysisPipeline4.22\\StanfordModels\\",
+	"JAVA_PATH" : "C:\\Program Files\\Java\\jre-10\\bin\\java.exe;"
+}

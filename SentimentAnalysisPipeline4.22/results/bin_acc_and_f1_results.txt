@@ -1,0 +1,49 @@
+
+Model:        Negscope  Neg Resolution     Composition           Score
+----------------------------------------------------------------------------------------------------
+Model:         NEGTOOL       SYM_SHIFT       PARSETREE           F1:0.2308
+Model:         NEGTOOL      ASYM_SHIFT       PARSETREE           F1:0.2308
+Model:         NEGTOOL      ASYM_SHIFT            FLAT           F1:0.2308
+Model:          WINDOW       SYM_SHIFT            FLAT           F1:0.2308
+Model:          WINDOW      ASYM_SHIFT            FLAT           F1:0.2308
+Model:         NEGTOOL      SYM_INVERT            FLAT           F1:0.2963
+Model:          WINDOW      SYM_INVERT            FLAT           F1:0.2963
+Model:            NONE            NONE            FLAT           F1:0.3571
+Model:         NEGTOOL  ANTONYM_LOOKUP       PARSETREE           F1:0.3571
+Model:          WINDOW  ANTONYM_LOOKUP       PARSETREE           F1:0.3571
+Model:          WINDOW  ANTONYM_LOOKUP            FLAT           F1:0.3571
+Model:          WINDOW       SYM_SHIFT       PARSETREE           F1: 0.4
+Model:         NEGTOOL       SYM_SHIFT            FLAT           F1: 0.4
+Model:          WINDOW      ASYM_SHIFT       PARSETREE           F1:0.4138
+Model:       PARSETREE      ASYM_SHIFT       PARSETREE           F1:0.4138
+Model:         NEGTOOL  ANTONYM_LOOKUP            FLAT           F1:0.4138
+Model:         NEGTOOL      SYM_INVERT       PARSETREE           F1:0.4516
+Model:       PARSETREE       SYM_SHIFT       PARSETREE           F1:0.4667
+Model:          WINDOW      SYM_INVERT       PARSETREE           F1:0.5625
+Model:       PARSETREE      SYM_INVERT       PARSETREE           F1:0.5625
+
+
+
+
+Model:        Negscope  Neg Resolution     Composition           Score
+----------------------------------------------------------------------------------------------------
+Model:         NEGTOOL       SYM_SHIFT            FLAT           Bin_Acc:0.5333
+Model:         NEGTOOL  ANTONYM_LOOKUP       PARSETREE           Bin_Acc:0.5667
+Model:         NEGTOOL  ANTONYM_LOOKUP            FLAT           Bin_Acc:0.5667
+Model:         NEGTOOL       SYM_SHIFT       PARSETREE           Bin_Acc: 0.6
+Model:          WINDOW  ANTONYM_LOOKUP       PARSETREE           Bin_Acc: 0.6
+Model:         NEGTOOL      ASYM_SHIFT            FLAT           Bin_Acc: 0.6
+Model:         NEGTOOL      SYM_INVERT       PARSETREE           Bin_Acc:0.6333
+Model:          WINDOW  ANTONYM_LOOKUP            FLAT           Bin_Acc:0.6333
+Model:          WINDOW       SYM_SHIFT            FLAT           Bin_Acc:0.6333
+Model:          WINDOW      ASYM_SHIFT            FLAT           Bin_Acc:0.6333
+Model:         NEGTOOL      ASYM_SHIFT       PARSETREE           Bin_Acc:0.6667
+Model:          WINDOW       SYM_SHIFT       PARSETREE           Bin_Acc:0.6667
+Model:          WINDOW      ASYM_SHIFT       PARSETREE           Bin_Acc:0.6667
+Model:            NONE            NONE            FLAT           Bin_Acc: 0.7
+Model:          WINDOW      SYM_INVERT       PARSETREE           Bin_Acc: 0.7
+Model:       PARSETREE       SYM_SHIFT       PARSETREE           Bin_Acc: 0.7
+Model:       PARSETREE      ASYM_SHIFT       PARSETREE           Bin_Acc: 0.7
+Model:         NEGTOOL      SYM_INVERT            FLAT           Bin_Acc: 0.7
+Model:       PARSETREE      SYM_INVERT       PARSETREE           Bin_Acc:0.7333
+Model:          WINDOW      SYM_INVERT            FLAT           Bin_Acc:0.7333
