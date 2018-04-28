@@ -58,7 +58,7 @@ class SAModel:
         negtool_neg_scopes_file.close()
 
         #window neg scope
-        self.window_size = 3
+        self.window_size = 4
 
         self.review_id = 0
         self.sentence_id = 0 #for negtool purposes
@@ -69,6 +69,7 @@ class SAModel:
         #parser and tokenizer initialization
         self.PARSER = StanfordParser(model_path="edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz")
         self.TOKENIZER = StanfordTokenizer()
+    
     def setModel(self, name = "NONE"):
         self.model = name
         self.neg_scope_method = name.split(" ")[0]
