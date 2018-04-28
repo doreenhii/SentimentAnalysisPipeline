@@ -1,12 +1,11 @@
 import os, json, itertools, re
 from nltk.parse.stanford import StanfordParser
+from nltk.tokenize.stanford import StanfordTokenizer
 from SentimentModelFunctions import *
 from pathlib import Path
-from stanfordcorenlp import StanfordCoreNLP
 
-def tokenize(corenlp, review, span=False):
-    r_dict = corenlp._request('ssplit', review)
-    tokens = [token['word'] for s in r_dict['sentences'] for token in s['tokens']]
+def tokenize(tokenizer, review):
+    tokens = tokenizer.tokenize(review)
 
     sentences = []
     current_sentence = []
@@ -25,14 +24,12 @@ def set_environment_paths(paths_json):
     
     root_path = paths_json["STANFORD_MODELS_PATH"]
     root = Path(root_path)
-    java_path = paths_json["JAVA_PATH"]
 
     class_paths = ["stanford-corenlp-full-2018-02-27","stanford-parser-full-2018-02-27","stanford-postagger-2018-02-27","stanford-ner-2018-02-27"]
     model_paths = ["stanford-corenlp-full-2018-02-27","stanford-parser-full-2018-02-27",os.path.join("stanford-postagger-2018-02-27","models"), os.path.join("stanford-ner-2018-02-27","classifiers")]
 
-    os.environ['CLASSPATH'] = "".join([str(root / path)+";" for path in class_paths])[:-1]
-    os.environ['STANFORD_MODELS'] = "".join([str(root / path)+";" for path in model_paths])[:-1]
-    os.environ['JAVAHOME'] = java_path
+    os.environ['CLASSPATH'] = "".join([str(root / path)+":" for path in class_paths])[:-1]
+    os.environ['STANFORD_MODELS'] = "".join([str(root / path)+":" for path in model_paths])[:-1]
 
 class SAModel:  
     def __init__(self, paths_json):
@@ -71,8 +68,7 @@ class SAModel:
 
         #parser and tokenizer initialization
         self.PARSER = StanfordParser(model_path="edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz")
-        self.nlp = StanfordCoreNLP(paths_json["PATH_TO_CORENLP"])
-        
+        self.TOKENIZER = StanfordTokenizer()
     def setModel(self, name = "NONE"):
         self.model = name
         self.neg_scope_method = name.split(" ")[0]
@@ -84,7 +80,7 @@ class SAModel:
 
     def setReview(self, review):
 
-        self.sentence_sequences = tokenize(self.nlp, review)
+        self.sentence_sequences = tokenize(self.TOKENIZER, review)
         self.review_size = len(self.sentence_sequences) #number of sentences
 
         if(self.model == "NONE" or self.sent_comp_method == "FLAT"):
@@ -99,6 +95,7 @@ class SAModel:
             self.sentence_trees = []
             self.valence_trees = []
             self.completeTreesIndices = []
+            
             for sentence in split_review:
                 self.sentence_trees.append(list(self.PARSER.raw_parse(sentence))[0])
                 self.valence_trees.append(map_valence_tree(self.VALENCE_DICT, self.sentence_trees[-1]))
@@ -129,10 +126,9 @@ class SAModel:
                 
     
     def neg_res(self): #this function is just for antonym_lookup neg res
-
-        for i in range(len(self.sentence_sequences)):
-
-            if(self.neg_scope_method != "PARSETREE" and self.neg_res_method == "ANTONYM_LOOKUP" and self.sent_comp_method == "PARSETREE"):
+        if(self.neg_scope_method != "PARSETREE" and self.neg_res_method == "ANTONYM_LOOKUP" and self.sent_comp_method == "PARSETREE"):
+            
+            for i in range(len(self.sentence_sequences)):
                     
                     #get linear sequence
                     sequence_indices = TreeToSequenceIndices(self.completeTreesIndices[i], self.neg_scopes[i])
@@ -153,8 +149,9 @@ class SAModel:
                         
                         temp[tree_index[-1]] = negated_valence
 
-            elif(self.sent_comp_method == "FLAT"):
+        elif(self.sent_comp_method == "FLAT"):
                 
+            for i in range(len(self.sentence_sequences)):
 
                 if(self.neg_res_method == "ANTONYM_LOOKUP"):
 
@@ -171,19 +168,19 @@ class SAModel:
                     for index in self.neg_scopes[i]:
                         if(self.valence_sequences[i][index] != -999):
                             self.valence_sequences[i][index] = negate(self.valence_sequences[i][index], self.neg_res_method)
-            else:
-                """
-                [ ] NEGTOOL SYM_INVERT PARSETREE
-                [ ] NEGTOOL SYM_SHIFT PARSETREE
-                [ ] NEGTOOL ASYM_SHIFT PARSETREE
-                [ ] WINDOW SYM_INVERT PARSETREE
-                [ ] WINDOW SYM_SHIFT PARSETREE
-                [ ] WINDOW ASYM_SHIFT PARSETREE
-                [ ] PARSETREE SYM_INVERT PARSETREE
-                [ ] PARSETREE SYM_SHIFT PARSETREE
-                [ ] PARSETREE ASYM_SHIFT PARSETREE
-                """
-                pass
+        else:
+            """
+            [ ] NEGTOOL SYM_INVERT PARSETREE
+            [ ] NEGTOOL SYM_SHIFT PARSETREE
+            [ ] NEGTOOL ASYM_SHIFT PARSETREE
+            [ ] WINDOW SYM_INVERT PARSETREE
+            [ ] WINDOW SYM_SHIFT PARSETREE
+            [ ] WINDOW ASYM_SHIFT PARSETREE
+            [ ] PARSETREE SYM_INVERT PARSETREE
+            [ ] PARSETREE SYM_SHIFT PARSETREE
+            [ ] PARSETREE ASYM_SHIFT PARSETREE
+            """
+            pass
 
     def compose(self):
 
