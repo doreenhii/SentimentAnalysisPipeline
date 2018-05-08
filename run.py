@@ -74,7 +74,7 @@ pipeline_start_time = time.time()
 for i in range(start_offset+1):
 	review_json = reviews_infile.readline()
 
-while model.review_id != 1000:
+while model.review_id != 10:
 	review_json = json.loads(review_json)
 	review = review_json["reviewText"]
 	truth = review_json["overall"]

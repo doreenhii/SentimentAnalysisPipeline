@@ -164,7 +164,8 @@ class SAModel:
             for i in range(self.review_size):
                 try:
                     #sentence_negscope = json.loads(self.negtool_neg_scopes_file.readline())[str(self.sentence_id+i)]["neg_scope"]
-                    sentence_negscope = json.loads(self.negtool_neg_scopes_file.readline())["negscope"]
+                    sentence_negscope = json.loads(self.negtool_neg_scopes_file.readline())
+                    sentence_negscope = sentence_negscope[list(sentence_negscope.keys())[0]]["neg_scope"]
                     self.negtool_negscopes.append(list(itertools.chain(*sentence_negscope)))
                     self.negtool_neg_scopes_file_current_line += 1
                 except:
