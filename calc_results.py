@@ -92,13 +92,18 @@ model_types = {
 19 : "NEGTOOL MEANINGSPEC_FREQDP FLAT",
 
 20 : "WINDOW ANTONYM_LOOKUP FLAT",
+21 :"WINDOW SYM_INVERT FLAT",
 22 : "WINDOW AFFIRM_SHIFT FLAT",
 23 : "WINDOW MEANINGSPEC_FREQ FLAT",
-24 : "WINDOW MEANINGSPEC_FREQDP FLAT"
+24 : "WINDOW MEANINGSPEC_FREQDP FLAT",
+
+25 : "WINDOW(1) SYM_INVERT FLAT",
+26 : "WINDOW(2) SYM_INVERT FLAT",
+27 : "WINDOW(3) SYM_INVERT FLAT"
 
 }
 
-models = [model_types[i] for i in range(25) if i in model_types.keys()]
+models = [model_types[i] for i in range(len(model_types.keys())) if i in model_types.keys()]
 
 f1_scores = calcF1Score(results, models)
 accuracy_scores = calcAccuracy(results, models)
