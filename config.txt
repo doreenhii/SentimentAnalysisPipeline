@@ -4,5 +4,6 @@
 	"PATH_TO_CORENLP": "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/StanfordModels/stanford-corenlp-full-2018-02-27/",
 	"NEGTOOL_DIRECTORY": "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/NegToolFiles/",
 	"VALENCE_DICT": "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/dictionaries/main_valence_dictionary.json",
+	"MEANING_SPEC_DISTRIBUTION_DICT_PATH" : "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/dictionaries/valenceToMeaningSpec.json",
 	"STANFORD_MODELS_PATH" : "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/StanfordModels/"
 }
