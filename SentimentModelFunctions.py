@@ -172,13 +172,14 @@ def inferDist(valence):
 	while (random_freq < 0):
 		random_freq = np.random.normal(random_freq_mu, random_freq_sigma, 1)
 	
+	
 	random_dp_mu = data["dispersion"][0]
 	random_dp_sigma = data["dispersion"][1]
 
 	random_dp = np.random.normal(random_dp_mu, random_dp_sigma, 1)
 	while (random_dp < 0):
 		random_dp = np.random.normal(random_dp_mu, random_dp_sigma, 1)
-
+		
 	# random_mi_mu = data["mi"][0]
 	# random_mi_sigma = data["mi"][1]
 

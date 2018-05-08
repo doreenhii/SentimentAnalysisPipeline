@@ -42,14 +42,16 @@ paths_file.close()
 root_path = paths_json["ROOT_PATH"]
 
 
-review_results = open(str(Path(root_path) / "results" / "review_results5.txt"), "a+")
+review_results = open(str(Path(root_path) / "results" / "review_results.txt"), "a+")
 error_log = open(str(Path(root_path) / "results" / "error_log.txt"), "a+")
+
 
 
 model = SAModel(paths_json)
 composition_methods = [ "FLAT", "PARSETREE"]
-neg_detection_methods = [[ "WINDOW", "NEGTOOL"], [ "WINDOW", "NEGTOOL", "PARSETREE"]]
+neg_detection_methods = [[ "WINDOW", "NEGTOOL"], [ "WINDOW", "NEGTOOL", "PARSETREE"]
 neg_res_methods = [ "ANTONYM_LOOKUP", "AFFIRM_SHIFT", "SYM_INVERT", "MEANINGSPEC_FREQ", "MEANINGSPEC_FREQDP"] #"ANTONYM_LOOKUP", #missing antonym lookup
+
 model.use_negtool = True #if you're not running negtool, set this to False
 
 # reviews
@@ -69,7 +71,6 @@ pipeline_start_time = time.time()
 for i in range(start_offset+1):
 	review_json = reviews_infile.readline()
 
-#while review_json:
 while model.review_id != 1000:
 	review_json = json.loads(review_json)
 	review = review_json["reviewText"]
@@ -101,7 +102,7 @@ while model.review_id != 1000:
 	for i in range(len(composition_methods)):
 		
 
-		model.sent_comp_method = composition_methods[::-1][i]	
+		model.sent_comp_method = composition_methods[i]	
 
 		# try:
 		# 	model.setReview()
@@ -111,12 +112,12 @@ while model.review_id != 1000:
 		
 		for j in range(len(neg_detection_methods[i])):
 
-			model.neg_scope_method = neg_detection_methods[::-1][i][j]
+			model.neg_scope_method = neg_detection_methods[i][j]
 			model.detectNegScope()
 			
 			for k in range(len(neg_res_methods)):
 
-				model.neg_res_method = neg_res_methods[::-1][k]
+				model.neg_res_method = neg_res_methods[k]
 
 				model_name = " ".join([neg_detection_methods[i][j], neg_res_methods[k], composition_methods[i]])
 				if(model_name == "PARSETREE ANTONYM_LOOKUP PARSETREE"):
@@ -132,8 +133,11 @@ while model.review_id != 1000:
 		model.model = ""
 
 	model.model = "NONE"
+
 	review_sentiment = round(model.compose(), 3)
 	model_predictions[model_types["NONE NONE FLAT"]] = review_sentiment
+
+	model.model = ""
 
 	end_time = time.time()
 

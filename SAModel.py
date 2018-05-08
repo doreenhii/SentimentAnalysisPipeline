@@ -104,48 +104,47 @@ class SAModel:
         self.valence_sequences = []
         
 
-        if(comp_method == "PARSETREE"):
-            #need parsetree
-            output = self.CORENLP.annotate(review, properties={
-                'annotators': 'tokenize,ssplit, parse',
-                'outputFormat': 'json',
-                'parse.model' : 'edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz'
-            })
-            #print(json.dumps(output['sentences'][0], indent = 4))
-            self.review_size = len(output['sentences'])
-            for i in range(self.review_size):
-                tokenized_sent = [token_json['word'] for token_json in output['sentences'][i]['tokens']] 
-                self.sentence_sequences.append(tokenized_sent)
+        #need parsetree
+        output = self.CORENLP.annotate(review, properties={
+            'annotators': 'tokenize,ssplit, parse',
+            'outputFormat': 'json',
+            'parse.model' : 'edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz'
+        })
+        
+        self.review_size = len(output['sentences'])
+        for i in range(self.review_size):
+            tokenized_sent = [token_json['word'] for token_json in output['sentences'][i]['tokens']] 
+            self.sentence_sequences.append(tokenized_sent)
 
-                #print(tokenized_sent)
-                #print(list(enumerate(tokenized_sent)))
+            #print(tokenized_sent)
+            #print(list(enumerate(tokenized_sent)))
 
-                parsetree = Tree.fromstring(output['sentences'][i]['parse'])
-                self.sentence_trees.append(parsetree)
-                self.completeTreesIndices.append(getTreeIndices(self.sentence_trees[-1]))
+            parsetree = Tree.fromstring(output['sentences'][i]['parse'])
+            self.sentence_trees.append(parsetree)
+            self.completeTreesIndices.append(getTreeIndices(self.sentence_trees[-1]))
 
-                self.valence_trees.append(map_valence_tree(self.VALENCE_DICT, self.sentence_trees[-1]))
-                #for flat
-                self.valence_sequences.append([getValence(self.VALENCE_DICT, word) for word in self.sentence_sequences[-1]])
+            self.valence_trees.append(map_valence_tree(self.VALENCE_DICT, self.sentence_trees[-1]))
+            #for flat
+            self.valence_sequences.append([getValence(self.VALENCE_DICT, word) for word in self.sentence_sequences[-1]])
 
-            self.original_valence_trees = json.dumps({"tree" : self.valence_trees})
-            self.original_valence_sequences = json.dumps({"tree" : self.valence_sequences})
+        self.original_valence_trees = json.dumps({"tree" : self.valence_trees})
+        self.original_valence_sequences = json.dumps({"tree" : self.valence_sequences})
 
-        elif(comp_method == "FLAT"):
-            #just flat
-            output = self.CORENLP.annotate(review, properties={
-                'annotators': 'tokenize,ssplit',
-                'outputFormat': 'json',
-                'parse.model' : 'edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz'
-            })
-            self.review_size = len(output['sentences'])
-            for i in range(self.review_size):
-                tokenized_sent = [token_json['word'] for token_json in output['sentences'][i]['tokens']] 
-                self.sentence_sequences.append(tokenized_sent)
-                self.valence_sequences.append([getValence(self.VALENCE_DICT, word) for word in self.sentence_sequences[-1]])
+        # elif(comp_method == "FLAT"):
+        #     #just flat
+        #     output = self.CORENLP.annotate(review, properties={
+        #         'annotators': 'tokenize,ssplit',
+        #         'outputFormat': 'json',
+        #         'parse.model' : 'edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz'
+        #     })
+        #     self.review_size = len(output['sentences'])
+        #     for i in range(self.review_size):
+        #         tokenized_sent = [token_json['word'] for token_json in output['sentences'][i]['tokens']] 
+        #         self.sentence_sequences.append(tokenized_sent)
+        #         self.valence_sequences.append([getValence(self.VALENCE_DICT, word) for word in self.sentence_sequences[-1]])
                 
-            self.original_valence_trees = json.dumps({"tree" : []})
-            self.original_valence_sequences = json.dumps({"tree" : self.valence_sequences})
+        #     self.original_valence_trees = json.dumps({"tree" : []})
+        #     self.original_valence_sequences = json.dumps({"tree" : self.valence_sequences})
 
     def reset_after_neg_res(self):
         #to reset the valence trees/sequences
