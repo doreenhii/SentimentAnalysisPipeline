@@ -119,7 +119,7 @@ def negtool():
     5. lookup_shift
     6. multiple_reg
 """
-def negate(valence, neg_res):
+def negate(valence, neg_res, distribution_dict = None):
 	if(neg_res == "SYM_INVERT"):
 		weight = 1.0
 		return -weight*valence
@@ -131,10 +131,10 @@ def negate(valence, neg_res):
 		return valence
 		
 	elif(neg_res == "MEANINGSPEC_FREQ"):
-		return meaningSpec_freq(valence)
+		return meaningSpec_freq(valence, distribution_dict)
 
 	elif(neg_res == "MEANINGSPEC_FREQDP"):
-		return meaningSpec_freqdp(valence)
+		return meaningSpec_freqdp(valence, distribution_dict)
 
 def antonym_lookup_negate(valence_dict, word):
 	try:
@@ -153,16 +153,26 @@ def antonym_lookup_negate(valence_dict, word):
 
 
 
-def inferDist(valence):
-	if valence < 0:
-		cat = max(-1.0,math.floor(valence*10)/10)
-	else:
-		cat = min(1.0,math.ceil(valence*10)/10)
+def get_cat(value):
+	bins = [-1.0, -0.96, -0.92, -0.88, -0.84, -0.8, -0.76, -0.72, -0.68, -0.64, -0.6, -0.56, -0.52, -0.48, -0.44, -0.4, -0.36, -0.32, -0.28, -0.24, -0.2, -0.16, -0.12, -0.08, -0.04, 0.0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1.0]
+
+	for i in range(len(bins)):
+		if value == 1:
+			return 1
+
+		else:
+			if bins[i] <= value < bins[i+1]:
+				return bins[i]
+	
+
+def inferDist(valence, distribution_dict):
+	cat = '%.3f'%(get_cat(valence))
+	# if valence < 0:
+	# 	cat = math.floor(valence*10)/10
+	# else:
+	# 	cat = math.ceil(valence*10)/10
 
 	# get mu and sigma of distribution
-
-	distribution_dict = {"0.0": { "dispersion": [  0.20614098272, 0.22694636438 ], "frequency": [ 479.274819788, 4015.73513203 ], "mi": [ -1.09900650837, 0.69416713447 ] },"0.9": {"dispersion": [0.12472186402450802, 0.09911062196507409], "frequency": [22.9, 27.595108262154], "mi": [-1.26807775218268, 0.4524461318217832]}, "-1.0": {"dispersion": [0.04998100523029686, 0.02711892049235589], "frequency": [204.14285714285714, 289.54616141789336], "mi": [-1.086831152715014, 0.049598695417991334]}, "1.0": {"dispersion": [0.10890036984885758, 0.060863198898303106], "frequency": [147.33333333333334, 206.12267113434066], "mi": [-0.9231636802480843, 0.1768632676312558]}, "0.8": {"dispersion": [0.15360643607399108, 0.19340300482732256], "frequency": [159.71428571428572, 509.58784866812124], "mi": [-0.9303541096407597, 0.27695365484961487]}, "0.1": {"dispersion": [0.20454758778312587, 0.22518391704432866], "frequency": [465.9272160313278, 3388.1897711252336], "mi": [-1.0999982981715237, 0.7074418916449938]}, "0.3": {"dispersion": [0.19665532651445136, 0.22324480430568763], "frequency": [484.5969602388384, 2939.9888491791694], "mi": [-1.1039163410909294, 0.6955724444275289]}, "0.2": {"dispersion": [0.22166842325962727, 0.23573709193709425], "frequency": [400.03768904155334, 4690.652448879055], "mi": [-1.102633642615733, 0.716783444108477]}, "0.5": {"dispersion": [0.17670576582301936, 0.22131469767550652], "frequency": [506.4294871794872, 1410.555114913072], "mi": [-1.1170572688370082, 0.635648109631374]}, "0.4": {"dispersion": [0.1999171897839913, 0.23057491755201875], "frequency": [839.0542317173378, 5769.444666267686], "mi": [-1.109713555516979, 0.7341320015551404]}, "0.7": {"dispersion": [0.24880076994973527, 0.2552488974610296], "frequency": [395.00315043318454, 2196.7817479887976], "mi": [-1.1132897896385205, 0.7735700923121853]}, "0.6": {"dispersion": [0.1875678513731465, 0.20471073202040857], "frequency": [461.16073546856467, 3746.019064291584], "mi": [-1.0499511762794622, 0.6016039039300725]}, "-0.5": {"dispersion": [0.22136302583087178, 0.24114976353799328], "frequency": [224.8783783783784, 814.458175932513], "mi": [-1.0369568752815406, 0.6886765429777627]}, "-0.4": {"dispersion": [0.21872712888097973, 0.22923387560048356], "frequency": [291.389369592089, 1415.1060945294914], "mi": [-1.0762527681455216, 0.6902407499747721]}, "-0.7": {"dispersion": [0.27747355611549085, 0.2611843398381495], "frequency": [214.93642123661786, 1145.4502395849472], "mi": [-1.1348907917033266, 0.786204860333708]}, "-0.6": {"dispersion": [0.19992424122173133, 0.2232316858208454], "frequency": [491.8213640469738, 4191.259477862486], "mi": [-1.088972804213507, 0.6613249480674773]}, "-0.1": {"dispersion": [0.20773437766093059, 0.22870881171663437], "frequency": [492.6224235452018, 4643.280492939766], "mi": [-1.0980147185721394, 0.6808923772954889]}, "-0.3": {"dispersion": [0.214874647451952, 0.23298127313552053], "frequency": [401.7641728134879, 3240.3418595458165], "mi": [-1.101105479503926, 0.6919831794197995]}, "-0.2": {"dispersion": [0.20504053253078453, 0.2277381324722484], "frequency": [525.7266731016731, 6724.672228898145], "mi": [-1.1055872238838251, 0.6802925777926746]}, "-0.9": {"dispersion": [0.08326982478338668, 0.06417157968847934], "frequency": [97.0, 139.58549749566075], "mi": [-1.3345951723483673, 1.3075244337747716]}, "-0.8": {"dispersion": [0.10144763865432462, 0.13556403758020347], "frequency": [962.96, 4107.693683613714], "mi": [-0.9908078800097886, 0.2387426365729821]}}
-
 	data = distribution_dict[str(cat)]
 
 	random_freq_mu = data["frequency"][0]
@@ -172,14 +182,13 @@ def inferDist(valence):
 	while (random_freq < 0):
 		random_freq = np.random.normal(random_freq_mu, random_freq_sigma, 1)
 	
-	
 	random_dp_mu = data["dispersion"][0]
 	random_dp_sigma = data["dispersion"][1]
 
 	random_dp = np.random.normal(random_dp_mu, random_dp_sigma, 1)
 	while (random_dp < 0):
 		random_dp = np.random.normal(random_dp_mu, random_dp_sigma, 1)
-		
+
 	# random_mi_mu = data["mi"][0]
 	# random_mi_sigma = data["mi"][1]
 
@@ -187,24 +196,21 @@ def inferDist(valence):
 	
 	return {"frequency" : random_freq[0], "dispersion": random_dp[0]}
 
-
 def affirm_shift(Affirm):
 	return -0.065916 -0.363218*Affirm
 
-def meaningSpec_freq(Affirm):
-	Freq = inferDist(Affirm)["frequency"]
+def meaningSpec_freq(Affirm, distribution_dict):
+	Freq = inferDist(Affirm, distribution_dict)["frequency"]
 
 	return -7.747130e-02 -3.850748e-01*Affirm + Freq*5.326080e-09
 
 
-def meaningSpec_freqdp(Affirm):
-
-	inferred = inferDist(Affirm)
+def meaningSpec_freqdp(Affirm, distribution_dict):
+	inferred = inferDist(Affirm, distribution_dict)
 	Freq = inferred["frequency"]
 	DP = inferred["dispersion"]
 
 	return -6.112665e-02 +Affirm*-3.851552e-01+Freq*7.751644e-09+DP*-2.260250e+00+Freq*DP*-1.976151e-06
-
 #*--------------------------------------------------------------------------------------*#
 #*                               Antonym Dictionary Method                              *#
 #*--------------------------------------------------------------------------------------*#
@@ -416,7 +422,7 @@ def antonym_lookup(word):
 #*------------------------------------------------------------------------------------------*#
 #*                               Sentiment Composition Methods                              *#
 #*------------------------------------------------------------------------------------------*#
-def tree_composition(tree, parent_index, neg_scope, neg_res):
+def tree_composition(tree, parent_index, neg_scope, neg_res, distribution_dict = None):
     valence = []
     for i in range(len(tree)):
         subtree = tree[i]
@@ -428,15 +434,15 @@ def tree_composition(tree, parent_index, neg_scope, neg_res):
                 continue
 
             if(current_index in neg_scope):
-                subtree = negate(subtree, neg_res)
+                subtree = negate(subtree, neg_res, distribution_dict)
                 
             valence.append(subtree)
         else:
-            valence_from_tree = tree_composition(subtree, current_index, neg_scope, neg_res)
+            valence_from_tree = tree_composition(subtree, current_index, neg_scope, neg_res, distribution_dict)
             if(valence_from_tree == -999):
                 continue
             if(current_index in neg_scope):
-                valence_from_tree = negate(valence_from_tree, neg_res)
+                valence_from_tree = negate(valence_from_tree, neg_res, distribution_dict)
             valence.append(valence_from_tree)
     if(len(valence) == 0):
         return -999

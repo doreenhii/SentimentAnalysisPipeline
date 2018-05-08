@@ -66,6 +66,9 @@ class SAModel:
         self.negtool_neg_scopes_file_current_line = 0
         self.use_negtool = False
 
+        meaning_spec_distribution_dict_path = paths_json["MEANING_SPEC_DISTRIBUTION_DICT_PATH"]
+        with open(meaning_spec_distribution_dict_path) as json_file:
+            self.distribution_dict = json.loads(json_file.read())
         #window neg scope
         self.window_size = 4
 
@@ -237,7 +240,7 @@ class SAModel:
                 else:
                     for index in self.neg_scopes[i]:
                         if(self.valence_sequences[i][index] != -999):
-                            self.valence_sequences[i][index] = negate(self.valence_sequences[i][index], self.neg_res_method)
+                            self.valence_sequences[i][index] = negate(self.valence_sequences[i][index], self.neg_res_method, self.distribution_dict)
         else:
             """
             [ ] NEGTOOL SYM_INVERT PARSETREE
@@ -258,13 +261,13 @@ class SAModel:
 
         for i in range(len(self.sentence_sequences)):
 
-            if(self.model == "NONE" or self.sent_comp_method == "FLAT"):
+            if(self.model == "NONE NONE FLAT" or self.sent_comp_method == "FLAT"):
 
                 sentiment = flat_composition(self.valence_sequences[i])
             
             elif(self.sent_comp_method == "PARSETREE"):
 
-                sentiment = tree_composition(self.valence_trees[i], [], self.neg_scopes[i], self.neg_res_method)
+                sentiment = tree_composition(self.valence_trees[i], [], self.neg_scopes[i], self.neg_res_method, self.distribution_dict)
 
             sentiment_scores.append(sentiment)
 

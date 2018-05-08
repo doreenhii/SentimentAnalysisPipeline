@@ -32,8 +32,11 @@ model_types = {
 "WINDOW SYM_INVERT FLAT" : 21,
 "WINDOW AFFIRM_SHIFT FLAT": 22,
 "WINDOW MEANINGSPEC_FREQ FLAT": 23,
-"WINDOW MEANINGSPEC_FREQDP FLAT": 24
+"WINDOW MEANINGSPEC_FREQDP FLAT": 24,
 
+"WINDOW(1) SYM_INVERT FLAT" : 25, 
+"WINDOW(2) SYM_INVERT FLAT" : 26,
+"WINDOW(3) SYM_INVERT FLAT" : 27
 }
 
 paths_file = open(Path(os.getcwd()) / "config.txt", "r")
@@ -78,7 +81,7 @@ while model.review_id != 1000:
 	
 	start_time = time.time()
 	
-	model_predictions = [0 for i in range(25)]
+	model_predictions = [0 for i in range(len(model_types.keys()))]
 
 	try:
 		model.preparePipeline(review, "PARSETREE")
@@ -132,13 +135,37 @@ while model.review_id != 1000:
 
 		model.model = ""
 
-	model.model = "NONE"
+	#Run NONE model
+	model.model = "NONE NONE FLAT"
 
 	review_sentiment = round(model.compose(), 3)
-	model_predictions[model_types["NONE NONE FLAT"]] = review_sentiment
+	model_predictions[model_types[model.model]] = review_sentiment
 
-	model.model = ""
 
+	#Run extra models
+	extra_models_to_run = ["WINDOW(1) SYM_INVERT FLAT", "WINDOW(2) SYM_INVERT FLAT", "WINDOW(3) SYM_INVERT FLAT"]
+	
+	for i in range(len(extra_models_to_run)):
+		extra_model = extra_models_to_run[i]
+
+		model.neg_scope_method = "WINDOW"
+		model.neg_res_method = "SYM_INVERT"
+		model.sent_comp_method  = "FLAT"
+		model.window_size = i + 1
+
+
+		model.detectNegScope()
+		model.neg_res()
+
+		model.model = extra_model
+
+		review_sentiment = round(model.compose(), 3)
+		model_predictions[model_types[extra_model]] = review_sentiment
+
+		model.reset_after_neg_res()
+		model.model = ""
+
+	
 	end_time = time.time()
 
 	print("Review_{} in {} seconds: {}".format(model.review_id, (end_time-start_time), review))
