@@ -14,6 +14,7 @@ def extract_features_cue(sentence_dicts, cue_lexicon, affixal_cue_lexicon, mode=
     """
     instances = []
     for sent in sentence_dicts:
+        print(" ".join([sent[i][3] for i in sent.keys()]))
         for key, value in sent.items():
             features = {}
             if isinstance(key, int):

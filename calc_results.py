@@ -63,29 +63,60 @@ Accuracy, precision, f1scores of each model
 ####################################################################################
 """
 paths_json = utils.get_paths_json()
-results_path = Path(paths_json["ROOT_PATH"]) / "results" / "sa_results-2018-04-25.json"
+results_path = Path(paths_json["ROOT_PATH"]) / "results" / "sa_results-2018-05-03.json"
 results = json.load(open(results_path, "r"))
 
-models_path =  Path(paths_json["ROOT_PATH"]) / "models_to_run.txt"
-models = [model.rstrip("\n") for model in open(models_path).readlines()]
+model_types = {
+
+1 : "NEGTOOL ANTONYM_LOOKUP PARSETREE",
+2 : "NEGTOOL SYM_INVERT PARSETREE",
+3 : "NEGTOOL AFFIRM_SHIFT PARSETREE",
+4 : "NEGTOOL MEANINGSPEC_FREQ PARSETREE",
+5 : "NEGTOOL MEANINGSPEC_FREQDP PARSETREE",
+
+6 : "WINDOW ANTONYM_LOOKUP PARSETREE",
+7 : "WINDOW SYM_INVERT PARSETREE",
+8 : "WINDOW AFFIRM_SHIFT PARSETREE",
+9 : "WINDOW MEANINGSPEC_FREQ PARSETREE",
+10 : "WINDOW MEANINGSPEC_FREQDP PARSETREE",
+
+11 : "PARSETREE SYM_INVERT PARSETREE",
+12 : "PARSETREE AFFIRM_SHIFT PARSETREE",
+13 : "PARSETREE MEANINGSPEC_FREQ PARSETREE",
+14 : "PARSETREE MEANINGSPEC_FREQDP PARSETREE",
+
+20 : "NEGTOOL ANTONYM_LOOKUP FLAT",
+16 : "NEGTOOL SYM_INVERT FLAT",
+17 : "NEGTOOL AFFIRM_SHIFT FLAT",
+18 : "NEGTOOL MEANINGSPEC_FREQ FLAT",
+19 : "NEGTOOL MEANINGSPEC_FREQDP FLAT",
+
+20 : "WINDOW ANTONYM_LOOKUP FLAT",
+22 : "WINDOW AFFIRM_SHIFT FLAT",
+23 : "WINDOW MEANINGSPEC_FREQ FLAT",
+24 : "WINDOW MEANINGSPEC_FREQDP FLAT"
+
+}
+
+models = [model_types[i] for i in range(25) if i in model_types.keys()]
 
 f1_scores = calcF1Score(results, models)
 accuracy_scores = calcAccuracy(results, models)
 
 
-print("\nModel: {: >15} {: >15} {: >15} \t\t {: >4}".format("Negscope","Neg Resolution","Composition", "Score"))
+print("\nModel: {: >20} {: >20} {: >20} \t\t {: >4}".format("Negscope","Neg Resolution","Composition", "Score"))
 print("-"*100)
 results = sorted(f1_scores.items(), key=lambda x: x[1]) #F1Scores
 for model, score in results:
-	print("Model: {: >15} {: >15} {: >15} \t\t F1:{: >4}".format(model.split(" ")[0],model.split(" ")[1],model.split(" ")[2], round(score,4)))
+	print("Model: {: >20} {: >20} {: >20} \t\t F1:{: >4}".format(model.split(" ")[0],model.split(" ")[1],model.split(" ")[2], round(score,4)))
 
 print("\n\n")
 
-print("\nModel: {: >15} {: >15} {: >15} \t\t {: >4}".format("Negscope","Neg Resolution","Composition", "Score"))
+print("\nModel: {: >20} {: >20} {: >20} \t\t {: >4}".format("Negscope","Neg Resolution","Composition", "Score"))
 print("-"*100)
 results = sorted(accuracy_scores.items(), key=lambda x: x[1])
 for model, score in results:
-	print("Model: {: >15} {: >15} {: >15} \t\t Bin_Acc:{:>4}".format(model.split(" ")[0],model.split(" ")[1],model.split(" ")[2], round(score,4)))
+	print("Model: {: >20} {: >20} {: >20} \t\t Bin_Acc:{:>4}".format(model.split(" ")[0],model.split(" ")[1],model.split(" ")[2], round(score,4)))
 
 #print("F1 Scores:",json.dumps(f1_scores, indent = 4))
 

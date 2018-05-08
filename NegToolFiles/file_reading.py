@@ -15,7 +15,11 @@ def run_corenlp(corenlp_path, filename):
 			
 	absolute_path = corenlp_path + "/*"
 	outputDirectory = os.path.dirname(filename)
-	args = ['java', '-cp', absolute_path, '-Xmx1800m', 'edu.stanford.nlp.pipeline.StanfordCoreNLP',  '-annotators', 'tokenize,ssplit,pos,lemma,depparse', '-file', filename, '-outputFormat', 'conll', '-outputDirectory',  outputDirectory]
+	'''
+	DOREEN says: i added option tokenizerOptions because some unicode cannot be handled by corenlp
+				solution to untokenizable words now is to skip but keep the words (so we dont mess with the index)
+	'''
+	args = ['java', '-cp', absolute_path, '-Xmx1800m', 'edu.stanford.nlp.pipeline.StanfordCoreNLP', '-tokenizerOptions', 'untokenizable=noneKeep',  '-annotators', 'tokenize,ssplit,pos,lemma,depparse', '-file', filename, '-outputFormat', 'conll', '-outputDirectory',  outputDirectory]
 	pipe = subprocess.call(args)
 
 def read_parsed_data(filename, mode):
@@ -32,11 +36,18 @@ def read_parsed_data(filename, mode):
 			tokens = line.split()
 			if len(tokens) == 0:
 				for key in sentence:
-					head_index = int(sentence[key]['head']) - 1
-					if head_index > -1:
-						sentence[key]['head-pos'] = sentence[head_index][5]
-					else:
-						sentence[key]['head-pos'] = sentence[key][5]
+					'''
+					DOREEN says:
+					'''
+					# *** !!! try error block added here !!! *** 
+					try:
+						head_index = int(sentence[key]['head']) - 1
+						if head_index > -1:
+							sentence[key]['head-pos'] = sentence[head_index][5]
+						else:
+							sentence[key]['head-pos'] = sentence[key][5]
+					except ValueError:
+						pass
 
 				instances.append(sentence)
 				sentence = {}
@@ -89,11 +100,18 @@ def read_cuepredicted_data(filename, mode):
 			if len(tokens) == 0:
 				for key in sentence:
 					#store the head index and pos for each token in sentence
-					head_index = int(sentence[key]['head']) - 1
-					if head_index > -1:
-						sentence[key]['head-pos'] = sentence[head_index][5]
-					else:
-						sentence[key]['head-pos'] = sentence[key][5]
+					'''
+					DOREEN says:
+					'''
+					# *** !!! try error block added here !!! *** 
+					try:
+						head_index = int(sentence[key]['head']) - 1
+						if head_index > -1:
+							sentence[key]['head-pos'] = sentence[head_index][5]
+						else:
+							sentence[key]['head-pos'] = sentence[key][5]
+					except ValueError:
+						pass
 				sentence['cues'] = cues
 				sentence['mw_cues'] = mw_cues
 				if len(cues) > 0:

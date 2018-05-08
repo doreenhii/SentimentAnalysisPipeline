@@ -1,0 +1,55 @@
+Model:             Negscope       Neg Resolution          Composition 		 Score
+----------------------------------------------------------------------------------------------------
+Model:              NEGTOOL   MEANINGSPEC_FREQDP                 FLAT 		 F1:0.1456
+Model:               WINDOW   MEANINGSPEC_FREQDP                 FLAT 		 F1:0.2402
+Model:              NEGTOOL   MEANINGSPEC_FREQDP            PARSETREE 		 F1:0.2485
+Model:              NEGTOOL     MEANINGSPEC_FREQ                 FLAT 		 F1:0.279
+Model:              NEGTOOL         AFFIRM_SHIFT                 FLAT 		 F1:0.299
+Model:            PARSETREE   MEANINGSPEC_FREQDP            PARSETREE 		 F1:0.3497
+Model:               WINDOW   MEANINGSPEC_FREQDP            PARSETREE 		 F1:0.3546
+Model:               WINDOW         AFFIRM_SHIFT                 FLAT 		 F1:0.3755
+Model:               WINDOW     MEANINGSPEC_FREQ                 FLAT 		 F1:0.383
+Model:              NEGTOOL           SYM_INVERT                 FLAT 		 F1:0.3906
+Model:              NEGTOOL     MEANINGSPEC_FREQ            PARSETREE 		 F1:0.4085
+Model:              NEGTOOL         AFFIRM_SHIFT            PARSETREE 		 F1:0.4102
+Model:               WINDOW       ANTONYM_LOOKUP                 FLAT 		 F1:0.4228
+Model:               WINDOW       ANTONYM_LOOKUP            PARSETREE 		 F1:0.444
+Model:              NEGTOOL       ANTONYM_LOOKUP            PARSETREE 		 F1:0.4449
+Model:              NEGTOOL           SYM_INVERT            PARSETREE 		 F1:0.4603
+Model:               WINDOW     MEANINGSPEC_FREQ            PARSETREE 		 F1:0.4692
+Model:            PARSETREE         AFFIRM_SHIFT            PARSETREE 		 F1:0.4709
+Model:            PARSETREE     MEANINGSPEC_FREQ            PARSETREE 		 F1:0.4709
+Model:               WINDOW         AFFIRM_SHIFT            PARSETREE 		 F1:0.4724
+Model:            PARSETREE           SYM_INVERT            PARSETREE 		 F1:0.5111
+Model:               WINDOW           SYM_INVERT            PARSETREE 		 F1:0.531
+
+
+
+
+Model:             Negscope       Neg Resolution          Composition 		 Score
+----------------------------------------------------------------------------------------------------
+Model:              NEGTOOL   MEANINGSPEC_FREQDP                 FLAT 		 Bin_Acc:0.5669
+Model:              NEGTOOL   MEANINGSPEC_FREQDP            PARSETREE 		 Bin_Acc:0.637
+Model:               WINDOW   MEANINGSPEC_FREQDP                 FLAT 		 Bin_Acc:0.7128
+Model:            PARSETREE   MEANINGSPEC_FREQDP            PARSETREE 		 Bin_Acc:0.7156
+Model:               WINDOW   MEANINGSPEC_FREQDP            PARSETREE 		 Bin_Acc:0.7166
+Model:              NEGTOOL       ANTONYM_LOOKUP            PARSETREE 		 Bin_Acc:0.7699
+Model:              NEGTOOL           SYM_INVERT            PARSETREE 		 Bin_Acc:0.7783
+Model:            PARSETREE         AFFIRM_SHIFT            PARSETREE 		 Bin_Acc:0.782
+Model:            PARSETREE     MEANINGSPEC_FREQ            PARSETREE 		 Bin_Acc:0.783
+Model:               WINDOW       ANTONYM_LOOKUP            PARSETREE 		 Bin_Acc:0.7839
+Model:            PARSETREE           SYM_INVERT            PARSETREE 		 Bin_Acc:0.7839
+Model:              NEGTOOL     MEANINGSPEC_FREQ            PARSETREE 		 Bin_Acc:0.7877
+Model:              NEGTOOL     MEANINGSPEC_FREQ                 FLAT 		 Bin_Acc:0.7895
+Model:              NEGTOOL         AFFIRM_SHIFT            PARSETREE 		 Bin_Acc:0.7905
+Model:              NEGTOOL           SYM_INVERT                 FLAT 		 Bin_Acc:0.7914
+Model:               WINDOW           SYM_INVERT            PARSETREE 		 Bin_Acc:0.7942
+Model:               WINDOW     MEANINGSPEC_FREQ            PARSETREE 		 Bin_Acc:0.797
+Model:               WINDOW       ANTONYM_LOOKUP                 FLAT 		 Bin_Acc:0.7979
+Model:               WINDOW         AFFIRM_SHIFT            PARSETREE 		 Bin_Acc:0.7989
+Model:              NEGTOOL         AFFIRM_SHIFT                 FLAT 		 Bin_Acc:0.7998
+Model:               WINDOW     MEANINGSPEC_FREQ                 FLAT 		 Bin_Acc:0.8129
+Model:               WINDOW         AFFIRM_SHIFT                 FLAT 		 Bin_Acc:0.8157
+
+
+

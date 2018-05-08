@@ -1,8 +1,14 @@
 import os, json, itertools, re
+from pathlib import Path
+
+from SentimentModelFunctions import *
+
+from pycorenlp import StanfordCoreNLP
+from nltk.tree import Tree
+
+###########
 from nltk.parse.stanford import StanfordParser
 from nltk.tokenize.stanford import StanfordTokenizer
-from SentimentModelFunctions import *
-from pathlib import Path
 
 def tokenize(tokenizer, review):
     tokens = tokenizer.tokenize(review)
@@ -19,6 +25,8 @@ def tokenize(tokenizer, review):
 
     #return [" ".join(sentence[:-1])+sentence[-1] for sentence in sentences] #return sentences
     return sentences #return tokenized sentences
+###########
+
 
 def set_environment_paths(paths_json):
     
@@ -32,6 +40,7 @@ def set_environment_paths(paths_json):
     os.environ['STANFORD_MODELS'] = "".join([str(root / path)+":" for path in model_paths])[:-1]
 
 class SAModel:  
+
     def __init__(self, paths_json):
         set_environment_paths(paths_json)
 
@@ -42,20 +51,20 @@ class SAModel:
         self.CompleteWordIndices = []
 
         self.model = ""
+        self.models2run = []
         self.neg_scope_method = ""
         self.neg_res_method = ""
         self.sent_comp_method = ""
         
 
         valence_dict_path = paths_json["VALENCE_DICT"]
-        json_file = open(valence_dict_path)
-        self.VALENCE_DICT = json.loads(json_file.read())
-        json_file.close()
+        with open(valence_dict_path) as json_file:
+            self.VALENCE_DICT = json.loads(json_file.read())
 
         negtool_negscopes_path = paths_json["NEGTOOL_NEGSCOPE"]
-        negtool_neg_scopes_file = open(negtool_negscopes_path, "r")
-        self.NT_neg_scopes = json.loads(negtool_neg_scopes_file.read())
-        negtool_neg_scopes_file.close()
+        self.negtool_neg_scopes_file = open(negtool_negscopes_path, "r")
+        self.negtool_neg_scopes_file_current_line = 0
+        self.use_negtool = False
 
         #window neg scope
         self.window_size = 4
@@ -67,8 +76,14 @@ class SAModel:
         self.contractions = ["n't", "'m", "'ll","'d","'s","'ve","'re"]
 
         #parser and tokenizer initialization
-        self.PARSER = StanfordParser(model_path="edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz")
+        # self.PARSER = StanfordParser(model_path="edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz")
         self.TOKENIZER = StanfordTokenizer()
+
+        #using server
+        self.CORENLP = StanfordCoreNLP('http://localhost:9000')
+    
+    def close_files(self):
+        self.negtool_neg_scopes_file.close()
     
     def setModel(self, name = "NONE"):
         self.model = name
@@ -79,32 +94,86 @@ class SAModel:
     def printModel(self):
         print(" ".join([self.neg_scope_method, self.neg_res_method, self.sent_comp_method]))
 
-    def setReview(self, review):
+    def preparePipeline(self, review, comp_method = "PARSETREE"):
 
-        self.sentence_sequences = tokenize(self.TOKENIZER, review)
-        self.review_size = len(self.sentence_sequences) #number of sentences
+        self.sentence_sequences = []
+        self.sentence_trees = []
+        self.valence_trees = []
+        self.completeTreesIndices = []
 
-        if(self.model == "NONE" or self.sent_comp_method == "FLAT"):
-            
-            self.valence_sequences = []
-            for sentence in self.sentence_sequences:
-                self.valence_sequences.append([getValence(self.VALENCE_DICT, word) for word in sentence])
+        self.valence_sequences = []
+        
 
-        elif(self.sent_comp_method == "PARSETREE"):
-            
-            split_review = [" ".join(tokenized_sent[:-1])+tokenized_sent[-1] for tokenized_sent in self.sentence_sequences]
-            self.sentence_trees = []
-            self.valence_trees = []
-            self.completeTreesIndices = []
-            
-            for sentence in split_review:
-                self.sentence_trees.append(list(self.PARSER.raw_parse(sentence))[0])
-                self.valence_trees.append(map_valence_tree(self.VALENCE_DICT, self.sentence_trees[-1]))
+        if(comp_method == "PARSETREE"):
+            #need parsetree
+            output = self.CORENLP.annotate(review, properties={
+                'annotators': 'tokenize,ssplit, parse',
+                'outputFormat': 'json',
+                'parse.model' : 'edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz'
+            })
+            #print(json.dumps(output['sentences'][0], indent = 4))
+            self.review_size = len(output['sentences'])
+            for i in range(self.review_size):
+                tokenized_sent = [token_json['word'] for token_json in output['sentences'][i]['tokens']] 
+                self.sentence_sequences.append(tokenized_sent)
+
+                #print(tokenized_sent)
+                #print(list(enumerate(tokenized_sent)))
+
+                parsetree = Tree.fromstring(output['sentences'][i]['parse'])
+                self.sentence_trees.append(parsetree)
                 self.completeTreesIndices.append(getTreeIndices(self.sentence_trees[-1]))
+
+                self.valence_trees.append(map_valence_tree(self.VALENCE_DICT, self.sentence_trees[-1]))
+                #for flat
+                self.valence_sequences.append([getValence(self.VALENCE_DICT, word) for word in self.sentence_sequences[-1]])
+
+            self.original_valence_trees = json.dumps({"tree" : self.valence_trees})
+            self.original_valence_sequences = json.dumps({"tree" : self.valence_sequences})
+
+        elif(comp_method == "FLAT"):
+            #just flat
+            output = self.CORENLP.annotate(review, properties={
+                'annotators': 'tokenize,ssplit',
+                'outputFormat': 'json',
+                'parse.model' : 'edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz'
+            })
+            self.review_size = len(output['sentences'])
+            for i in range(self.review_size):
+                tokenized_sent = [token_json['word'] for token_json in output['sentences'][i]['tokens']] 
+                self.sentence_sequences.append(tokenized_sent)
+                self.valence_sequences.append([getValence(self.VALENCE_DICT, word) for word in self.sentence_sequences[-1]])
+                
+            self.original_valence_trees = json.dumps({"tree" : []})
+            self.original_valence_sequences = json.dumps({"tree" : self.valence_sequences})
+
+    def reset_after_neg_res(self):
+        #to reset the valence trees/sequences
+        self.valence_sequences = json.loads(self.original_valence_sequences)["tree"]
+        self.valence_trees = json.loads(self.original_valence_trees)["tree"]
+        
+    def getNegtoolNegscope(self):
+        if(self.use_negtool):
+            #get negtool negscopes
+            self.negtool_negscopes = []
+
+            
+
+            for i in range(self.review_size):
+                try:
+                    #sentence_negscope = json.loads(self.negtool_neg_scopes_file.readline())[str(self.sentence_id+i)]["neg_scope"]
+                    sentence_negscope = json.loads(self.negtool_neg_scopes_file.readline())["negscope"]
+                    self.negtool_negscopes.append(list(itertools.chain(*sentence_negscope)))
+                    self.negtool_neg_scopes_file_current_line += 1
+                except:
+                    print("Could not load negtool_negscope @ {}".format(self.sentence_id+i))
+                    pass
+                    
             
 
     def detectNegScope(self):
         self.neg_scopes = []
+
 
         for i in range(len(self.sentence_sequences)):
 
@@ -115,18 +184,19 @@ class SAModel:
                 self.neg_scopes.append(resolve_double_negative(detect_neg_scope_window(self.sentence_sequences[i], self.window_size)))
 
             elif(self.neg_scope_method == "NEGTOOL" and self.sent_comp_method == "FLAT"):
-                self.neg_scopes.append(resolve_double_negative( list(itertools.chain(*self.NT_neg_scopes[str(self.sentence_id+i)]["neg_scope"]))))
+                self.neg_scopes.append(resolve_double_negative( self.negtool_negscopes[i] ))
+                #print(self.neg_scopes[-1])
             
             elif(self.neg_scope_method == "WINDOW" and self.sent_comp_method == "PARSETREE"):
                 negscope = resolve_double_negative(detect_neg_scope_window(self.sentence_sequences[i], self.window_size)) 
                 self.neg_scopes.append(SequenceToTreeIndices(self.completeTreesIndices[i], negscope))
 
             elif(self.neg_scope_method == "NEGTOOL" and self.sent_comp_method == "PARSETREE"):
-                negscope = resolve_double_negative( list(itertools.chain(*self.NT_neg_scopes[str(self.sentence_id+i)]["neg_scope"])))
+                negscope = resolve_double_negative( self.negtool_negscopes[i] )
                 self.neg_scopes.append(SequenceToTreeIndices(self.completeTreesIndices[i], negscope))
                 
     
-    def neg_res(self): #this function is just for antonym_lookup neg res
+    def neg_res(self):
         if(self.neg_scope_method != "PARSETREE" and self.neg_res_method == "ANTONYM_LOOKUP" and self.sent_comp_method == "PARSETREE"):
             
             for i in range(len(self.sentence_sequences)):
@@ -202,11 +272,51 @@ class SAModel:
         sentiment_scores = list(filter(lambda a: a != -999, sentiment_scores))
         
         if(len(sentiment_scores) == 0):
-            avg_valence = None
+            avg_valence = -999
         else:
             avg_valence = sum(sentiment_scores)/float(len(sentiment_scores))
 
         return avg_valence
+
+    def getReviewSize(self,review):
+        self.sentence_sequences = tokenize(self.TOKENIZER, review)
+        self.review_size = len(self.sentence_sequences)
+        return self.review_size
+
+    def tokenizeReview(self,review):
+        #run once per review in a serial manner because of reading negtool_file line by line
+        self.sentence_sequences = tokenize(self.TOKENIZER, review)
+        self.review_size = len(self.sentence_sequences) #number of sentences
+        self.negtool_negscopes = []
+        for i in range(self.review_size):
+            try:
+                sentence_negscope = json.loads(self.negtool_neg_scopes_file.readline())[str(self.sentence_id+i)]["neg_scope"]
+                self.negtool_negscopes.append(list(itertools.chain(*sentence_negscope)))
+            except:
+                print("Could not load negtool_negscope @ {}".format(self.sentence_id+i))
+                pass
+
+    def setReview(self):
+
+        if(self.model == "NONE" or self.sent_comp_method == "FLAT"):
+            
+            self.valence_sequences = []
+            for sentence in self.sentence_sequences:
+                self.valence_sequences.append([getValence(self.VALENCE_DICT, word) for word in sentence])
+
+        elif(self.sent_comp_method == "PARSETREE"):
+            
+            split_review = [" ".join(tokenized_sent[:-1])+tokenized_sent[-1] for tokenized_sent in self.sentence_sequences]
+            self.sentence_trees = []
+            self.valence_trees = []
+            self.completeTreesIndices = []
+            
+            for sentence in split_review:
+                self.sentence_trees.append(list(self.PARSER.raw_parse(sentence))[0])
+                self.valence_trees.append(map_valence_tree(self.VALENCE_DICT, self.sentence_trees[-1]))
+                self.completeTreesIndices.append(getTreeIndices(self.sentence_trees[-1]))
+
+
 
 
 ##################################################################
@@ -215,22 +325,19 @@ class SAModel:
 
 
 class SAResults:
-    def __init__(self, paths_json):
+    def __init__(self, models_list, paths_json):
 
         self.results_json = {}
 
         root_path = paths_json["ROOT_PATH"]
 
-        models_list_filepath = Path(root_path) / "models_to_run.txt"
-        models_list_file = open(models_list_filepath, "r")
-        models_list = models_list_file.readlines()
-        models_list_file.close()
+        self.numberOfCorrect = {}
 
         for model in models_list:
             self.results_json[model.rstrip("\n")] = {
                     "category_results" : [0,0,0,0,0],
-                    "correct_binary_results" : 0 ,
-                    "incorrect_binary_results" : 0 ,
+                    "correct_binary_results" : 0,
+                    "incorrect_binary_results" : 0,
                     "mse" : 0,
                     "binary_results_dict" : 
                     {
@@ -239,10 +346,11 @@ class SAResults:
                         "neutralized_positive" : 0, "neutralized_negative" : 0
                     }
                 }
-
+            self.numberOfCorrect[model.rstrip("\n")] = 0
         #in depth results variables
         self.category_difference = []
         self.correct = [] #1 for correct, 0 for incorrect
+        
  
     def categorize_prediction(self, model, truth, predicted_value):
         if (-1. <= predicted_value < -.6):
@@ -264,17 +372,25 @@ class SAResults:
 
         #indepth results
         self.category_difference.append(diff)
-        
+
+        if (result < 3 and truth < 3) or (result >= 3 and truth >= 3):
+            self.results_json[model]["correct_binary_results"] += 1 #correct
+            self.correct.append(1)
+        elif (result < 3 and truth >= 3) or (result >= 3 and truth < 3):
+            self.results_json[model]["incorrect_binary_results"] += 1 
+            self.correct.append(0) #1 for correct, 0 for incorrect
+        else:
+            print("result/truth: {}/{}".format(result,truth))
+
     def binary_prediction(self, model, truth, predicted_value):
         normalized_truth = (truth - 3)/2.0 
 
-        if(normalized_truth >= 0 and predicted_value < 0) or (normalized_truth < 0 and predicted_value >= 0): #consider 0 truth as positive
+        if(predicted_value < 0 and normalized_truth >= 0) or (predicted_value >= 0 and normalized_truth < 0): #consider 0 truth as positive
             self.results_json[model]["incorrect_binary_results"] += 1 #incorrect
             self.correct.append(0) #1 for correct, 0 for incorrect
-        else:
+        elif (predicted_value < 0 and normalized_truth < 0) or (predicted_value >= 0 and normalized_truth >= 0):
             self.results_json[model]["correct_binary_results"] += 1 #correct
             self.correct.append(1) #1 for correct, 0 for incorrect
-        
 
 
     def get_in_depth_results(self):
@@ -323,8 +439,6 @@ class SAResults:
         outfile.close()
 
 """
-self.results_json[model]["binary_results_dict"][]
-self.results_json = 
         {
             "MODEL_NAME" : 
             {
@@ -343,18 +457,7 @@ self.results_json =
 
         }
 
-
 """
 
-"""
-# to write to file at the end, 
-# outfile = open("precision_data.txt","w")
-# outfile.write('Truth stats: \t\t\t Predicted\n\t\t\t\t\tPositive\t\tNegative\t\tNeutral\n')
-# outfile.write('\t\t\tPositive: '+str(binary_results_dict["true_positive"])+'\t\t'+str(binary_results_dict["false_negative"])+'\t\t'+str(binary_results_dict["neutralized_positive"])+'\n')
-# outfile.write('Observed\tNegative: '+str(binary_results_dict["false_positive"])+'\t\t\t\t'+str(binary_results_dict["true_negative"])+'\t\t'+str(binary_results_dict["neutralized_negative"])+'\n')
-# outfile.write('\t\t\tNeutral:  '+str(binary_results_dict["positified_neutral"])+'\t\t'+str(binary_results_dict["negatified_neutral"])+'\t\t'+str(binary_results_dict["true_neutral"])+'\n\n')
-# outfile.close()
-
-"""
 
 

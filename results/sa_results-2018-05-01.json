@@ -1,0 +1,577 @@
+{
+    "NONE NONE FLAT": {
+        "category_results": [
+            14,
+            45,
+            141,
+            0,
+            0
+        ],
+        "correct_binary_results": 150,
+        "incorrect_binary_results": 50,
+        "mse": 609,
+        "binary_results_dict": {
+            "true_positive": 0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "true_negative": 0,
+            "true_neutral": 14,
+            "positified_neutral": 0,
+            "negatified_neutral": 0,
+            "neutralized_positive": 136,
+            "neutralized_negative": 50
+        }
+    },
+    "NEGTOOL ANTONYM_LOOKUP PARSETREE": {
+        "category_results": [
+            23,
+            72,
+            102,
+            3,
+            0
+        ],
+        "correct_binary_results": 153,
+        "incorrect_binary_results": 47,
+        "mse": 507,
+        "binary_results_dict": {
+            "true_positive": 42,
+            "false_negative": 3,
+            "false_positive": 1,
+            "true_negative": 6,
+            "true_neutral": 12,
+            "positified_neutral": 2,
+            "negatified_neutral": 0,
+            "neutralized_positive": 91,
+            "neutralized_negative": 43
+        }
+    },
+    "NEGTOOL SYM_INVERT PARSETREE": {
+        "category_results": [
+            23,
+            73,
+            99,
+            5,
+            0
+        ],
+        "correct_binary_results": 157,
+        "incorrect_binary_results": 43,
+        "mse": 514,
+        "binary_results_dict": {
+            "true_positive": 53,
+            "false_negative": 1,
+            "false_positive": 7,
+            "true_negative": 2,
+            "true_neutral": 8,
+            "positified_neutral": 5,
+            "negatified_neutral": 1,
+            "neutralized_positive": 82,
+            "neutralized_negative": 41
+        }
+    },
+    "NEGTOOL AFFIRM_SHIFT PARSETREE": {
+        "category_results": [
+            23,
+            69,
+            107,
+            1,
+            0
+        ],
+        "correct_binary_results": 162,
+        "incorrect_binary_results": 38,
+        "mse": 506,
+        "binary_results_dict": {
+            "true_positive": 43,
+            "false_negative": 0,
+            "false_positive": 1,
+            "true_negative": 1,
+            "true_neutral": 12,
+            "positified_neutral": 2,
+            "negatified_neutral": 0,
+            "neutralized_positive": 93,
+            "neutralized_negative": 48
+        }
+    },
+    "NEGTOOL MEANINGSPEC_FREQ PARSETREE": {
+        "category_results": [
+            21,
+            71,
+            107,
+            1,
+            0
+        ],
+        "correct_binary_results": 162,
+        "incorrect_binary_results": 38,
+        "mse": 508,
+        "binary_results_dict": {
+            "true_positive": 42,
+            "false_negative": 0,
+            "false_positive": 1,
+            "true_negative": 1,
+            "true_neutral": 11,
+            "positified_neutral": 2,
+            "negatified_neutral": 1,
+            "neutralized_positive": 94,
+            "neutralized_negative": 48
+        }
+    },
+    "NEGTOOL MEANINGSPEC_FREQDP PARSETREE": {
+        "category_results": [
+            22,
+            62,
+            105,
+            9,
+            2
+        ],
+        "correct_binary_results": 133,
+        "incorrect_binary_results": 67,
+        "mse": 595,
+        "binary_results_dict": {
+            "true_positive": 21,
+            "false_negative": 13,
+            "false_positive": 0,
+            "true_negative": 19,
+            "true_neutral": 9,
+            "positified_neutral": 1,
+            "negatified_neutral": 4,
+            "neutralized_positive": 102,
+            "neutralized_negative": 31
+        }
+    },
+    "WINDOW ANTONYM_LOOKUP PARSETREE": {
+        "category_results": [
+            22,
+            70,
+            105,
+            3,
+            0
+        ],
+        "correct_binary_results": 157,
+        "incorrect_binary_results": 43,
+        "mse": 517,
+        "binary_results_dict": {
+            "true_positive": 41,
+            "false_negative": 2,
+            "false_positive": 3,
+            "true_negative": 4,
+            "true_neutral": 12,
+            "positified_neutral": 2,
+            "negatified_neutral": 0,
+            "neutralized_positive": 93,
+            "neutralized_negative": 43
+        }
+    },
+    "WINDOW SYM_INVERT PARSETREE": {
+        "category_results": [
+            22,
+            78,
+            97,
+            3,
+            0
+        ],
+        "correct_binary_results": 159,
+        "incorrect_binary_results": 41,
+        "mse": 493,
+        "binary_results_dict": {
+            "true_positive": 56,
+            "false_negative": 0,
+            "false_positive": 6,
+            "true_negative": 1,
+            "true_neutral": 9,
+            "positified_neutral": 5,
+            "negatified_neutral": 0,
+            "neutralized_positive": 80,
+            "neutralized_negative": 43
+        }
+    },
+    "WINDOW AFFIRM_SHIFT PARSETREE": {
+        "category_results": [
+            24,
+            68,
+            107,
+            1,
+            0
+        ],
+        "correct_binary_results": 163,
+        "incorrect_binary_results": 37,
+        "mse": 505,
+        "binary_results_dict": {
+            "true_positive": 46,
+            "false_negative": 0,
+            "false_positive": 3,
+            "true_negative": 1,
+            "true_neutral": 12,
+            "positified_neutral": 2,
+            "negatified_neutral": 0,
+            "neutralized_positive": 90,
+            "neutralized_negative": 46
+        }
+    },
+    "WINDOW MEANINGSPEC_FREQ PARSETREE": {
+        "category_results": [
+            24,
+            68,
+            107,
+            1,
+            0
+        ],
+        "correct_binary_results": 162,
+        "incorrect_binary_results": 38,
+        "mse": 505,
+        "binary_results_dict": {
+            "true_positive": 46,
+            "false_negative": 0,
+            "false_positive": 3,
+            "true_negative": 1,
+            "true_neutral": 12,
+            "positified_neutral": 2,
+            "negatified_neutral": 0,
+            "neutralized_positive": 90,
+            "neutralized_negative": 46
+        }
+    },
+    "WINDOW MEANINGSPEC_FREQDP PARSETREE": {
+        "category_results": [
+            22,
+            64,
+            111,
+            3,
+            0
+        ],
+        "correct_binary_results": 154,
+        "incorrect_binary_results": 46,
+        "mse": 535,
+        "binary_results_dict": {
+            "true_positive": 31,
+            "false_negative": 2,
+            "false_positive": 3,
+            "true_negative": 9,
+            "true_neutral": 11,
+            "positified_neutral": 2,
+            "negatified_neutral": 1,
+            "neutralized_positive": 103,
+            "neutralized_negative": 38
+        }
+    },
+    "PARSETREE SYM_INVERT PARSETREE": {
+        "category_results": [
+            27,
+            74,
+            94,
+            5,
+            0
+        ],
+        "correct_binary_results": 163,
+        "incorrect_binary_results": 37,
+        "mse": 495,
+        "binary_results_dict": {
+            "true_positive": 58,
+            "false_negative": 2,
+            "false_positive": 5,
+            "true_negative": 2,
+            "true_neutral": 11,
+            "positified_neutral": 3,
+            "negatified_neutral": 0,
+            "neutralized_positive": 76,
+            "neutralized_negative": 43
+        }
+    },
+    "PARSETREE AFFIRM_SHIFT PARSETREE": {
+        "category_results": [
+            26,
+            71,
+            101,
+            2,
+            0
+        ],
+        "correct_binary_results": 160,
+        "incorrect_binary_results": 40,
+        "mse": 493,
+        "binary_results_dict": {
+            "true_positive": 50,
+            "false_negative": 2,
+            "false_positive": 1,
+            "true_negative": 3,
+            "true_neutral": 12,
+            "positified_neutral": 2,
+            "negatified_neutral": 0,
+            "neutralized_positive": 84,
+            "neutralized_negative": 46
+        }
+    },
+    "PARSETREE MEANINGSPEC_FREQ PARSETREE": {
+        "category_results": [
+            26,
+            71,
+            101,
+            2,
+            0
+        ],
+        "correct_binary_results": 160,
+        "incorrect_binary_results": 40,
+        "mse": 493,
+        "binary_results_dict": {
+            "true_positive": 50,
+            "false_negative": 2,
+            "false_positive": 1,
+            "true_negative": 3,
+            "true_neutral": 12,
+            "positified_neutral": 2,
+            "negatified_neutral": 0,
+            "neutralized_positive": 84,
+            "neutralized_negative": 46
+        }
+    },
+    "PARSETREE MEANINGSPEC_FREQDP PARSETREE": {
+        "category_results": [
+            23,
+            63,
+            109,
+            5,
+            0
+        ],
+        "correct_binary_results": 144,
+        "incorrect_binary_results": 56,
+        "mse": 544,
+        "binary_results_dict": {
+            "true_positive": 31,
+            "false_negative": 5,
+            "false_positive": 1,
+            "true_negative": 9,
+            "true_neutral": 11,
+            "positified_neutral": 2,
+            "negatified_neutral": 1,
+            "neutralized_positive": 100,
+            "neutralized_negative": 40
+        }
+    },
+    "NEGTOOL ANTONYM_LOOKUP FLAT": {
+        "category_results": [
+            19,
+            64,
+            113,
+            4,
+            0
+        ],
+        "correct_binary_results": 155,
+        "incorrect_binary_results": 45,
+        "mse": 552,
+        "binary_results_dict": {
+            "true_positive": 32,
+            "false_negative": 1,
+            "false_positive": 3,
+            "true_negative": 1,
+            "true_neutral": 10,
+            "positified_neutral": 4,
+            "negatified_neutral": 0,
+            "neutralized_positive": 103,
+            "neutralized_negative": 46
+        }
+    },
+    "NEGTOOL SYM_INVERT FLAT": {
+        "category_results": [
+            21,
+            62,
+            114,
+            3,
+            0
+        ],
+        "correct_binary_results": 156,
+        "incorrect_binary_results": 44,
+        "mse": 545,
+        "binary_results_dict": {
+            "true_positive": 33,
+            "false_negative": 1,
+            "false_positive": 2,
+            "true_negative": 1,
+            "true_neutral": 11,
+            "positified_neutral": 3,
+            "negatified_neutral": 0,
+            "neutralized_positive": 102,
+            "neutralized_negative": 47
+        }
+    },
+    "NEGTOOL AFFIRM_SHIFT FLAT": {
+        "category_results": [
+            19,
+            58,
+            121,
+            2,
+            0
+        ],
+        "correct_binary_results": 161,
+        "incorrect_binary_results": 39,
+        "mse": 560,
+        "binary_results_dict": {
+            "true_positive": 22,
+            "false_negative": 1,
+            "false_positive": 1,
+            "true_negative": 2,
+            "true_neutral": 13,
+            "positified_neutral": 1,
+            "negatified_neutral": 0,
+            "neutralized_positive": 113,
+            "neutralized_negative": 47
+        }
+    },
+    "NEGTOOL MEANINGSPEC_FREQ FLAT": {
+        "category_results": [
+            19,
+            57,
+            122,
+            2,
+            0
+        ],
+        "correct_binary_results": 160,
+        "incorrect_binary_results": 40,
+        "mse": 563,
+        "binary_results_dict": {
+            "true_positive": 21,
+            "false_negative": 1,
+            "false_positive": 1,
+            "true_negative": 2,
+            "true_neutral": 13,
+            "positified_neutral": 1,
+            "negatified_neutral": 0,
+            "neutralized_positive": 114,
+            "neutralized_negative": 47
+        }
+    },
+    "NEGTOOL MEANINGSPEC_FREQDP FLAT": {
+        "category_results": [
+            19,
+            58,
+            112,
+            9,
+            2
+        ],
+        "correct_binary_results": 131,
+        "incorrect_binary_results": 69,
+        "mse": 619,
+        "binary_results_dict": {
+            "true_positive": 10,
+            "false_negative": 14,
+            "false_positive": 0,
+            "true_negative": 20,
+            "true_neutral": 11,
+            "positified_neutral": 0,
+            "negatified_neutral": 3,
+            "neutralized_positive": 112,
+            "neutralized_negative": 30
+        }
+    },
+    "WINDOW ANTONYM_LOOKUP FLAT": {
+        "category_results": [
+            19,
+            69,
+            109,
+            3,
+            0
+        ],
+        "correct_binary_results": 158,
+        "incorrect_binary_results": 42,
+        "mse": 532,
+        "binary_results_dict": {
+            "true_positive": 37,
+            "false_negative": 0,
+            "false_positive": 3,
+            "true_negative": 2,
+            "true_neutral": 9,
+            "positified_neutral": 5,
+            "negatified_neutral": 0,
+            "neutralized_positive": 99,
+            "neutralized_negative": 45
+        }
+    },
+    "WINDOW SYM_INVERT FLAT": {
+        "category_results": [
+            14,
+            45,
+            141,
+            0,
+            0
+        ],
+        "correct_binary_results": 150,
+        "incorrect_binary_results": 50,
+        "mse": 609,
+        "binary_results_dict": {
+            "true_positive": 0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "true_negative": 0,
+            "true_neutral": 14,
+            "positified_neutral": 0,
+            "negatified_neutral": 0,
+            "neutralized_positive": 136,
+            "neutralized_negative": 50
+        }
+    },
+    "WINDOW AFFIRM_SHIFT FLAT": {
+        "category_results": [
+            22,
+            59,
+            118,
+            1,
+            0
+        ],
+        "correct_binary_results": 160,
+        "incorrect_binary_results": 40,
+        "mse": 540,
+        "binary_results_dict": {
+            "true_positive": 29,
+            "false_negative": 0,
+            "false_positive": 1,
+            "true_negative": 2,
+            "true_neutral": 13,
+            "positified_neutral": 1,
+            "negatified_neutral": 0,
+            "neutralized_positive": 107,
+            "neutralized_negative": 47
+        }
+    },
+    "WINDOW MEANINGSPEC_FREQ FLAT": {
+        "category_results": [
+            22,
+            59,
+            118,
+            1,
+            0
+        ],
+        "correct_binary_results": 159,
+        "incorrect_binary_results": 41,
+        "mse": 540,
+        "binary_results_dict": {
+            "true_positive": 29,
+            "false_negative": 0,
+            "false_positive": 1,
+            "true_negative": 2,
+            "true_neutral": 13,
+            "positified_neutral": 1,
+            "negatified_neutral": 0,
+            "neutralized_positive": 107,
+            "neutralized_negative": 47
+        }
+    },
+    "WINDOW MEANINGSPEC_FREQDP FLAT": {
+        "category_results": [
+            18,
+            63,
+            115,
+            4,
+            0
+        ],
+        "correct_binary_results": 145,
+        "incorrect_binary_results": 55,
+        "mse": 559,
+        "binary_results_dict": {
+            "true_positive": 18,
+            "false_negative": 4,
+            "false_positive": 0,
+            "true_negative": 9,
+            "true_neutral": 13,
+            "positified_neutral": 0,
+            "negatified_neutral": 1,
+            "neutralized_positive": 114,
+            "neutralized_negative": 41
+        }
+    }
+}

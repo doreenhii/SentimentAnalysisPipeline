@@ -1,0 +1,63 @@
+if (result <= 3 and truth <= 3) or (result > 3 and truth > 3):
+    self.results_json[model]["correct_binary_results"] += 1 #correct
+    self.correct.append(1)
+elif (result <= 3 and truth > 3) or (result > 3 and truth <= 3):
+    self.results_json[model]["incorrect_binary_results"] += 1 
+    self.correct.append(0) #1 for correct, 0 for incorrect
+else:
+    print("result/truth: {}/{}".format(result,truth))
+    self.numberOfNotClassification[model] += 1
+
+
+Model:             Negscope       Neg Resolution          Composition 		 Score
+----------------------------------------------------------------------------------------------------
+Model:              NEGTOOL   MEANINGSPEC_FREQDP                 FLAT 		 F1:0.1592
+Model:               WINDOW   MEANINGSPEC_FREQDP                 FLAT 		 F1:0.2188
+Model:              NEGTOOL   MEANINGSPEC_FREQDP            PARSETREE 		 F1:0.2245
+Model:               WINDOW   MEANINGSPEC_FREQDP            PARSETREE 		 F1:0.293
+Model:              NEGTOOL     MEANINGSPEC_FREQ                 FLAT 		 F1:0.2984
+Model:            PARSETREE   MEANINGSPEC_FREQDP            PARSETREE 		 F1:0.3006
+Model:              NEGTOOL         AFFIRM_SHIFT                 FLAT 		 F1:0.3077
+Model:              NEGTOOL           SYM_INVERT                 FLAT 		 F1:0.3484
+Model:               WINDOW     MEANINGSPEC_FREQ                 FLAT 		 F1:0.3638
+Model:               WINDOW         AFFIRM_SHIFT                 FLAT 		 F1:0.3692
+Model:              NEGTOOL     MEANINGSPEC_FREQ            PARSETREE 		 F1:0.4041
+Model:              NEGTOOL         AFFIRM_SHIFT            PARSETREE 		 F1:0.4132
+Model:               WINDOW       ANTONYM_LOOKUP                 FLAT 		 F1:0.429
+Model:            PARSETREE     MEANINGSPEC_FREQ            PARSETREE 		 F1:0.4292
+Model:            PARSETREE         AFFIRM_SHIFT            PARSETREE 		 F1:0.4327
+Model:               WINDOW     MEANINGSPEC_FREQ            PARSETREE 		 F1:0.4376
+Model:              NEGTOOL           SYM_INVERT            PARSETREE 		 F1:0.4385
+Model:               WINDOW         AFFIRM_SHIFT            PARSETREE 		 F1:0.441
+Model:               WINDOW       ANTONYM_LOOKUP            PARSETREE 		 F1:0.4454
+Model:              NEGTOOL       ANTONYM_LOOKUP            PARSETREE 		 F1:0.458
+Model:               WINDOW           SYM_INVERT            PARSETREE 		 F1:0.462
+Model:            PARSETREE           SYM_INVERT            PARSETREE 		 F1:0.4644
+
+
+
+
+Model:             Negscope       Neg Resolution          Composition 		 Score
+----------------------------------------------------------------------------------------------------
+Model:              NEGTOOL   MEANINGSPEC_FREQDP                 FLAT 		 Bin_Acc:0.377
+Model:               WINDOW   MEANINGSPEC_FREQDP                 FLAT 		 Bin_Acc:0.393
+Model:              NEGTOOL   MEANINGSPEC_FREQDP            PARSETREE 		 Bin_Acc:0.399
+Model:               WINDOW   MEANINGSPEC_FREQDP            PARSETREE 		 Bin_Acc:0.421
+Model:            PARSETREE   MEANINGSPEC_FREQDP            PARSETREE 		 Bin_Acc:0.423
+Model:              NEGTOOL     MEANINGSPEC_FREQ                 FLAT 		 Bin_Acc:0.431
+Model:              NEGTOOL         AFFIRM_SHIFT                 FLAT 		 Bin_Acc:0.433
+Model:              NEGTOOL           SYM_INVERT                 FLAT 		 Bin_Acc:0.454
+Model:               WINDOW     MEANINGSPEC_FREQ                 FLAT 		 Bin_Acc:0.458
+Model:               WINDOW         AFFIRM_SHIFT                 FLAT 		 Bin_Acc:0.46
+Model:              NEGTOOL     MEANINGSPEC_FREQ            PARSETREE 		 Bin_Acc:0.478
+Model:               WINDOW       ANTONYM_LOOKUP                 FLAT 		 Bin_Acc:0.481
+Model:              NEGTOOL         AFFIRM_SHIFT            PARSETREE 		 Bin_Acc:0.483
+Model:            PARSETREE     MEANINGSPEC_FREQ            PARSETREE 		 Bin_Acc:0.484
+Model:            PARSETREE         AFFIRM_SHIFT            PARSETREE 		 Bin_Acc:0.486
+Model:               WINDOW     MEANINGSPEC_FREQ            PARSETREE 		 Bin_Acc:0.491
+Model:               WINDOW       ANTONYM_LOOKUP            PARSETREE 		 Bin_Acc:0.492
+Model:               WINDOW         AFFIRM_SHIFT            PARSETREE 		 Bin_Acc:0.493
+Model:              NEGTOOL           SYM_INVERT            PARSETREE 		 Bin_Acc:0.498
+Model:              NEGTOOL       ANTONYM_LOOKUP            PARSETREE 		 Bin_Acc:0.503
+Model:               WINDOW           SYM_INVERT            PARSETREE 		 Bin_Acc:0.504
+Model:            PARSETREE           SYM_INVERT            PARSETREE 		 Bin_Acc:0.504

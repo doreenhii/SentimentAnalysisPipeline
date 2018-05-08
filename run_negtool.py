@@ -1,21 +1,35 @@
 def extract_neg_scope(neg_infile_path):
 
-	import csv,json
+	import csv,json, re
 
-	neg_words = ["no","not"]
+	pattern = re.compile(" doesnt | dont | cant | wont | didnt | havent | shant | cannot | couldnt | neednt | wasnt | isnt | arent | oughtnt | wouldnt | hasnt | mightnt | mustnt | shouldnt | Doesnt |Dont |Cant |Wont |Didnt |Havent |Shant |Cannot |Couldnt |Neednt | Wasnt |Isnt |Arent |Oughtnt |Wouldnt |Hasnt |Mightnt |Mustnt | Shouldnt |\w+n't | no | not | none | no one | nobody | nothing | neither | nowhere | never | nor |No |Not | None |No one |Nobody |Nothing |Neither |Nowhere |Never |Nor ",re.IGNORECASE)
 
-	contractions = ["n't", "'m", "'ll","'d","'s","'ve","'re"]
-
-	#opening infile
 	infile_path = neg_infile_path
-	neg_infile = open(infile_path, "r")
+	neg_infile = open(infile_path, "r")#opening infile
+
+
+	dir_path = os.path.dirname(infile_path)
+	outfile_path = Path(dir_path) / "aclimdb_negtool_neg_scopes.txt"
+	
 	reader = csv.reader(neg_infile, dialect='excel', delimiter='\t')
 
 	#json storing negation index (token index; does not include punctuation)
-	sentences = {} #sentences = { s_id : { "tokenized_sent": [w1,w2,...], "negation_scope": [id1,id2,...] } } 
+	sentence = {}
 
 	new_sentence = True
-	s_id = 0
+
+	endbytelog_path = Path(dir_path) / 'endbytelog.txt'
+	if not endbytelog_path.is_file():
+		with open(endbytelog_path, 'w') as endbytelog:
+			pass
+
+	with open(endbytelog_path,'r+') as endbytelog:
+		log = endbytelog.readlines()
+		if(len(log) == 0):
+			s_id = 0
+		else:	
+			s_id = int(log[-1].split("\t")[1].rstrip("\n"))
+
 
 	for row in reader:
 		#print(row)
@@ -24,7 +38,18 @@ def extract_neg_scope(neg_infile_path):
 
 			#after iterating through a sentence, enter in the negationscope into json
 			for i in valid_scopes:
-				sentences[s_id]["neg_scope"].append(neg_scopes[i])
+				try:
+					sentence["negscope"].append(neg_scopes[i])
+				except IndexError:
+					pass
+
+
+			#opening outfile
+			with open(outfile_path, 'a') as outfile:
+				#write negscope to big negscope file
+				json.dump(sentence, outfile)
+				outfile.write(os.linesep)
+
 
 			new_sentence = True
 			s_id += 1
@@ -32,7 +57,11 @@ def extract_neg_scope(neg_infile_path):
 	  
 		#open new key-value pair in dictionary
 		elif(new_sentence):
-			sentences[s_id] = { "tokenized_sent":[], "neg_scope":[] }
+			
+			if(len(row) == 0):
+				break
+
+			sentence = { "sentence_id" : s_id, "negscope" : [] }
 
 			num_neg_scopes = int((len(row) - 7)/3)#number of negation scopes determined by negtool
 			valid_scopes = [] #lists which columns are negation word scopes and not negation prefix scopes
@@ -43,9 +72,6 @@ def extract_neg_scope(neg_infile_path):
 			new_sentence = False
 
 
-		#include each word in tokenized_sent
-		sentences[s_id]["tokenized_sent"] += [row[1]]
-
 		#for each of the negation scope columns, record each word index
 		for i in range(num_neg_scopes):
 			#column index 8 will be the words being negated
@@ -53,7 +79,7 @@ def extract_neg_scope(neg_infile_path):
 				neg_scopes[i] += [word_index]
 
 		#if you catch a "neg" label, record w`hich column it's referring to
-		if(row[6] == "neg" or row[1] in neg_words):
+		if(row[6] == "neg" or re.search(pattern, row[1]) != None):
 			#column index 7 will be the negation word
 			valid_scopes.append([(col != '_') for col in row[7::3]].index(True))
 
@@ -61,17 +87,19 @@ def extract_neg_scope(neg_infile_path):
 		word_index += 1
 
 	neg_infile.close()
+	
+	with open(Path(dir_path) / 'endbytelog.txt','a+') as endbytelog:
+		with open(outfile_path, 'a+') as outfile:
+			end_byte = outfile.tell()
+			endbytelog.write(str(end_byte) + "\t" + str(s_id) + "\n")
 
 	#print(json.dumps(sentences,indent = 4))
-	#save to outfile
-	outfile_path = neg_infile_path.rstrip(".neg")+"_neg_scopes.txt"
-	outfile = open(outfile_path, "w")
-	json.dump(sentences, outfile, indent = 4)
-	outfile.close()
+	
+	
 
 
 if __name__ == '__main__':
-	import os,json
+	import os,json, sys
 	from pathlib import Path
 	# import argparse
 	# argparser = argparse.ArgumentParser()
@@ -87,17 +115,53 @@ if __name__ == '__main__':
 	paths_file = open(Path(os.getcwd()) / "config.txt", "r")
 	paths_json = json.load(paths_file)
 	paths_file.close()
+
 	root_path = paths_json["ROOT_PATH"]
 	negtool_directory = paths_json["NEGTOOL_DIRECTORY"]
 	path_to_corenlp = paths_json["PATH_TO_CORENLP"]
-	filename = "C:\\Users\\King\\Desktop\\SentimentAnalysisPipeline4.22\\reviews\\negtool_negscope\\test_file_small_just_reviews.txt"
 
-	import sys
 	sys.path.append(negtool_directory)
 	import negtool
-	negtool.run(mode = "raw", filename = filename, path_to_corenlp = path_to_corenlp, negtool_directory = negtool_directory)
-	neg_file_path = filename.rstrip(".txt") + ".neg"
-	extract_neg_scope(neg_file_path)
 
+	reviews_filename = str(Path(root_path) / "reviews" / "negtool_negscope" / "aclimbd_compiled_reviews_fixed_just_reviews.txt")
+
+	file_for_negtool_path = str(Path(root_path) / "reviews" / "negtool_negscope" / "splitaa.txt")
+	neg_file_path = file_for_negtool_path.split(".txt")[0] + ".neg"
+
+	review_cap = 500
+
+	with open (reviews_filename, 'r') as infile:
+
+		count = 1
+
+		current_top = count + review_cap - 1
+
+		outfile = open(file_for_negtool_path, 'w') #splitaa
+
+		for line in infile:
+
+			
+			if (count == current_top):
+
+				outfile.write(line.split("\n")[0])
+				outfile.close()
+				
+				negtool.run(mode = "raw", filename = file_for_negtool_path, path_to_corenlp = path_to_corenlp, negtool_directory = negtool_directory)
+				
+				extract_neg_scope(neg_file_path)
+
+				current_top = count + review_cap
+
+				outfile = open(file_for_negtool_path, 'w')
+
+				print ('round done')
+
+			else:
+
+				outfile.write(line)
+
+			count += 1
+
+		outfile.close()
 
 

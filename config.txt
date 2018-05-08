@@ -1,8 +1,8 @@
 {
-	"ROOT_PATH" : "/Users/alanyuen/Desktop/SentimentAnalysisPipeline4.22/",
-	"NEGTOOL_NEGSCOPE": "/Users/alanyuen/Desktop/SentimentAnalysisPipeline4.22/reviews/negtool_negscope/test_file_small_just_reviews_neg_scopes.txt",
-	"PATH_TO_CORENLP": "/Users/alanyuen/Desktop/SentimentAnalysisPipeline4.22/StanfordModels/stanford-corenlp-full-2018-02-27/",
-	"NEGTOOL_DIRECTORY": "/Users/alanyuen/Desktop/SentimentAnalysisPipeline4.22/NegToolFiles/",
-	"VALENCE_DICT": "/Users/alanyuen/Desktop/SentimentAnalysisPipeline4.22/dictionaries/main_valence_dictionary.json",
-	"STANFORD_MODELS_PATH" : "/Users/alanyuen/Desktop/SentimentAnalysisPipeline4.22/StanfordModels/"
+	"ROOT_PATH" : "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline",
+	"NEGTOOL_NEGSCOPE": "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/reviews/negtool_negscope/negtool_neg_scopes.txt",
+	"PATH_TO_CORENLP": "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/StanfordModels/stanford-corenlp-full-2018-02-27/",
+	"NEGTOOL_DIRECTORY": "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/NegToolFiles/",
+	"VALENCE_DICT": "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/dictionaries/main_valence_dictionary.json",
+	"STANFORD_MODELS_PATH" : "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/StanfordModels/"
 }
