@@ -165,6 +165,7 @@ while model.review_id != 1000:
 		model.reset_after_neg_res()
 		model.model = ""
 
+	model.window_size = 4 #default
 	
 	end_time = time.time()
 
