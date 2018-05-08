@@ -48,8 +48,8 @@ error_log = open(str(Path(root_path) / "results" / "error_log.txt"), "a+")
 
 
 model = SAModel(paths_json)
-composition_methods = [ "FLAT", "PARSETREE"]
-neg_detection_methods = [[ "WINDOW", "NEGTOOL"], [ "WINDOW", "NEGTOOL", "PARSETREE"]
+composition_methods = [ "FLAT", "PARSETREE" ]
+neg_detection_methods = [[ "WINDOW", "NEGTOOL"], [ "WINDOW", "NEGTOOL", "PARSETREE"]]
 neg_res_methods = [ "ANTONYM_LOOKUP", "AFFIRM_SHIFT", "SYM_INVERT", "MEANINGSPEC_FREQ", "MEANINGSPEC_FREQDP"] #"ANTONYM_LOOKUP", #missing antonym lookup
 
 model.use_negtool = True #if you're not running negtool, set this to False
