@@ -58,7 +58,7 @@ neg_res_methods = [ "ANTONYM_LOOKUP", "AFFIRM_SHIFT", "SYM_INVERT", "MEANINGSPEC
 model.use_negtool = True #if you're not running negtool, set this to False
 
 # reviews
-reviews_path = "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/reviews/test_file_1000_nt_fixed.json"
+reviews_path = "/Users/alanyuen/Desktop/UCI_NLP/SentimentAnalysisPipeline/reviews/test_file_full_nt_fixed_just_reviews_rerun10000.json"
 reviews_infile = open(reviews_path, "r")
 
 start_offset = 0
