@@ -2,6 +2,7 @@
 #########################
 /StanfordModels
 /NegToolFiles/*.pkl
+config.txt
 
 # Packages #
 ############
