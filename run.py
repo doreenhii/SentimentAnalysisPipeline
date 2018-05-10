@@ -71,10 +71,7 @@ while(model.negtool_neg_scopes_file_current_line < model.sentence_id):
 
 pipeline_start_time = time.time()
 
-for i in range(start_offset+1):
-	review_json = reviews_infile.readline()
-
-while model.review_id != 10:
+for review_json in reviews_infile:
 	review_json = json.loads(review_json)
 	review = review_json["reviewText"]
 	truth = review_json["overall"]
@@ -178,8 +175,6 @@ while model.review_id != 10:
 	model.review_id += 1
 
 	
-	review_json = reviews_infile.readline()
-
 pipeline_end_time = time.time()
 
 print("Total time: {}".format(pipeline_end_time - pipeline_start_time))
